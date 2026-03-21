@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="es">
+<head> 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HorseBit | Pro Betting</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --oro: #d4af37;
+    --dark: #0a0a0a;
+    --panel: #151515;
+    --verde: #1f8f5f;
+    --verde-bet: #2ecc71; 
+    --naranja: #f39c12;
+    --rojo: #c0392b;
+    --rojo-bet: #e74c3c;
+    --glass-border: rgba(212, 175, 55, 0.18);
+    
+    /* Colores de la nueva Pista Oscura */
+    --track-bg: #0d0e12;
+    --track-line: rgba(212, 175, 55, 0.25);
+    --track-text: #d4af37;
+}
+
+/* RESET */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+/* ===== BARRAS SUPERIORES ===== */
+.timer-bar { position: sticky; top: 0; z-index: 3000; background: var(--verde); color: #fff; text-align: center; padding: 8px; font-weight: 800; letter-spacing: 2px; font-size: .75rem; text-transform: uppercase; transition: background .3s; }
+.header-wrapper { background: #0f1113; border-bottom: 1px solid var(--glass-border); }
+.header { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; padding: 15px 20px; flex-wrap: wrap; }
+
+.logo-container { display: flex; align-items: center; gap: 12px; font-family: 'Cinzel', serif; letter-spacing: 2px; font-size: 1.4rem; font-weight: 900; color: var(--oro); text-transform: uppercase; }
+.logo-img { height: 35px; width: auto; object-fit: contain; }
+
+/* ===== PANEL CABECERA ===== */
+.user-panel { display: flex; flex-direction: row; align-items: center; gap: 10px; }
+
+.header-box {
+    background: transparent;
+    border: 1px solid var(--oro);
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.credit-box { color: #ddd; cursor: default; }
+.credit-box strong { color: var(--oro); font-size: 1.05rem; margin-left: 6px; font-weight: 900; }
+
+.btn-auth { color: var(--oro); cursor: pointer; text-transform: uppercase; outline: none; }
+.btn-auth:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+
+/* ===== HERO ===== */
+/* CORRECCIÓN: background-position a center 10% para priorizar la visualización de los jinetes y caballos */
+.hero { height: 260px; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("head.webp"); background-size: cover; background-position: center 10%; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid var(--oro); }
+.hero-content { text-align: center; padding: 0 15px; }
+.hero-live { display: inline-block; background: var(--rojo); padding: 5px 18px; border-radius: 30px; font-size: .75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 12px; animation: vivo 1.6s infinite; }
+@keyframes vivo { 0% { box-shadow: 0 0 6px rgba(192,57,43,.4); } 50% { box-shadow: 0 0 16px rgba(192,57,43,.9); } 100% { box-shadow: 0 0 6px rgba(192,57,43,.4); } }
+.hero h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; letter-spacing: 8px; margin: 0; color: var(--oro); }
+
+/* ===== NAVEGACIÓN ===== */
+.tabs-nav { display: flex; justify-content: center; background: #0d0f12; border-bottom: 1px solid #222; flex-wrap: wrap; }
+.tab-btn { background: none; border: none; color: #777; padding: 15px 30px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; flex: 1; min-width: 160px; text-align: center; }
+.tab-btn:hover { color: #fff; }
+.tab-btn.active { color: var(--oro); border-bottom: 3px solid var(--oro); background: rgba(212,175,55,0.05); }
+
+/* ===== ESTRUCTURA GRID ===== */
+main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
+.layout-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 30px; align-items: start; }
+
+.section-title { font-family: 'Cinzel', serif; letter-spacing: 2px; color: #aaa; margin: 0 0 20px 0; font-size: 1rem; border-left: 3px solid var(--oro); padding-left: 12px; font-weight: 900; }
+.oculto { display: none !important; }
+
+/* ===== PADDOCK (TARJETAS) ===== */
+.paddock { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 30px; }
+.bet-card { background: var(--panel); border: 1px solid #333; padding: 15px 10px; border-radius: 8px; text-align: center; cursor: pointer; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+.bet-card:hover { transform: translateY(-2px); border-color: #666; }
+.bet-card.selected { border-color: var(--oro); background: rgba(212,175,55,.1); box-shadow: inset 0 0 15px rgba(212,175,55,0.15); }
+.bet-card.disabled { opacity: .3; cursor: not-allowed; transform: none; }
+.bet-card h3 { font-family: 'Cinzel', serif; color: #fff; font-size: .95rem; margin: 0 0 5px 0; font-weight: 900; }
+.odds { font-size: .9rem; color: var(--oro); font-weight: 800; display: block; margin-bottom: 5px;}
+.prob-text { font-size: 0.65rem; color: #777; font-weight: 600; display: block; }
+.badge-fav { position: absolute; top: 0; left: 0; width: 100%; background: var(--rojo); color: #fff; font-size: 0.6rem; padding: 3px 0; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+/* ===== TICKET MULTI-APUESTA ===== */
+.sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 60px; }
+.ticket-panel { background: #0d1013; border: 1px solid #222; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+.ticket-header { background: #1a1e23; font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 800; color: #fff; padding: 15px 20px; text-align: center; letter-spacing: 1px; border-bottom: 1px solid var(--oro); }
+.ticket-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+.empty-msg { text-align: center; color: #666; font-style: italic; font-size: 0.85rem; padding: 20px 0; }
+.bet-item { background: #15181c; border-left: 3px solid var(--oro); padding: 10px 12px; border-radius: 4px; font-size: 0.8rem; }
+.bet-item-header { display: flex; justify-content: space-between; margin-bottom: 5px; color: #fff; font-weight: 700; font-family: 'Cinzel', serif; }
+.bet-item-details { display: flex; justify-content: space-between; color: #aaa; font-weight: 600; }
+.bet-item-details span strong { color: var(--verde-bet); }
+.ticket-summary { padding: 15px 20px; background: #080a0c; border-top: 1px dashed #333; }
+.summary-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #aaa; font-weight: 700; margin-bottom: 8px; }
+.summary-total { display: flex; justify-content: space-between; font-size: 1.1rem; color: #fff; font-weight: 900; margin-top: 10px; border-top: 1px solid #222; padding-top: 10px; }
+
+/* ===== PISTA (NUEVO DISEÑO "DARK NIGHT") ===== */
+.stadium-wrapper { 
+    width: 100%; 
+    border-radius: 8px;
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.8);
+    border: 2px solid #222; 
+}
+.stadium { 
+    background: var(--track-bg); 
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 50px, transparent 50px, transparent 100px);
+    padding: 0; 
+    position: relative; 
+    overflow: hidden; 
+}
+.lane { 
+    height: 64px; 
+    border-bottom: 1px dotted var(--track-line); 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    padding-left: 120px; 
+}
+.lane:last-child { border-bottom: none; }
+.lane-name { 
+    position: absolute; 
+    left: 15px; 
+    width: 90px; 
+    font-family: 'Cinzel', serif; 
+    font-size: .7rem; 
+    font-weight: 900; 
+    letter-spacing: 1px; 
+    color: var(--track-text); 
+    text-shadow: 2px 2px 4px #000;
+}
+.runner { 
+    position: absolute; 
+    left: 110px; 
+    width: 46px; 
+    height: 46px; 
+    border-radius: 50%; 
+    border: 2px solid var(--oro); 
+    background: #fff; 
+    object-fit: cover; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8); 
+    z-index: 10; 
+    animation: jockeyBob 0.5s infinite ease-in-out; 
+}
+@keyframes jockeyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+/* Línea de meta para pista oscura */
+.meta-line {
+    position: absolute;
+    right: 20px;
+    top: 0;
+    width: 14px;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, #fff 0, #fff 12px, #000 12px, #000 24px);
+    z-index: 1;
+    border-left: 2px solid var(--oro);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.8);
+}
+
+/* Polvo oscuro para pista nocturna */
+.dust-particle { position: absolute; background: rgba(30, 30, 30, 0.6); border-radius: 50%; pointer-events: none; z-index: 5; animation: dustFade 0.5s forwards ease-out; }
+@keyframes dustFade { 0% { transform: scale(1) translateY(0); opacity: 0.8; } 100% { transform: scale(2.5) translateY(-8px); opacity: 0; } }
+
+/* ===== RANKING EN VIVO ===== */
+.ranking-panel { background: #111; border: 1px solid #333; border-radius: 12px; padding: 20px; }
+.ranking-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.ranking-item { display: flex; align-items: center; gap: 10px; background: #1a1a1a; padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border-left: 3px solid #444; transition: all 0.2s; }
+.ranking-item.pos-1 { border-left-color: var(--oro); background: rgba(212, 175, 55, 0.1); }
+.ranking-item.pos-2 { border-left-color: #bdc3c7; }
+.ranking-item.pos-3 { border-left-color: #cd7f32; }
+.pos-number { font-family: 'Cinzel', serif; font-size: 1.1rem; color: #777; width: 20px; text-align: center; }
+.pos-1 .pos-number { color: var(--oro); font-weight: 900; }
+.rank-name { flex-grow: 1; letter-spacing: 1px; }
+
+/* ===== FICHAS TÉCNICAS ===== */
+.grid-fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 10px; padding: 20px; }
+.ficha-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 12px; margin-bottom: 15px; }
+.ficha-header h3 { margin: 0; color: var(--oro); font-family: 'Cinzel', serif; font-size: 1.1rem; }
+.ficha-cuota { font-weight: 800; background: var(--verde); color: rgba(212,175,55,0.2); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; }
+.record-grid { display: flex; justify-content: space-between; background: #0a0a0a; padding: 12px; border-radius: 6px; border: 1px solid #222; margin-bottom: 20px; }
+.record-box { text-align: center; }
+.record-label { display: block; font-size: 0.65rem; color: #888; letter-spacing: 1px; margin-bottom: 3px; font-weight: 700;}
+.record-value { font-weight: 800; font-size: 1.1rem; }
+.text-win { color: var(--verde-bet); }
+.text-lose { color: var(--rojo-bet); }
+.stat-row { margin-bottom: 8px; font-size: 0.75rem; color: #ccc; display: flex; justify-content: space-between; font-weight: 700;}
+.stat-bar-container { width: 100%; margin-bottom: 15px; }
+.stat-bar { width: 100%; height: 6px; background: #222; border-radius: 3px; overflow: hidden; }
+.stat-fill { height: 100%; background: var(--oro); }
+
+/* ===== FOOTER OFICIAL ===== */
+.footer-official { background: #0d0f11; color: #555; padding: 60px 20px 40px; border-top: 1px solid #222; text-align: center; font-size: 0.8rem; }
+.legal-icons { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 30px; }
+.legal-icons div { border: 1px solid #333; padding: 5px 12px; border-radius: 4px; font-weight: 800; font-size: 0.7rem; color: #444; }
+.juega-responsable { border: 1px solid #444; padding: 10px 25px; display: inline-block; font-weight: 800; letter-spacing: 1px; color: #aaa; margin-bottom: 25px; text-transform: uppercase; background: rgba(255,255,255,0.02); }
+.disclaimer-academic { color: var(--oro); font-weight: 700; margin-bottom: 20px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; border: 1px dashed var(--oro); padding: 10px; display: inline-block; }
+
+/* ===== MODALES (BASE) ===== */
+.modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; overflow: hidden; }
+.modal.show { opacity: 1; visibility: visible; }
+.close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; transition: color 0.2s; z-index: 10001; }
+.close-btn:hover { color: #fff; }
+
+/* ===== SELLO DEMO POR ENCIMA DEL LOGIN ===== */
+#modal-login::after {
+    content: 'DEMO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    color: rgba(231, 76, 60, 0.4);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 15vw, 10rem); 
+    letter-spacing: 20px;
+    text-transform: uppercase;
+    border: 8px solid rgba(231, 76, 60, 0.4);
+    padding: 20px 60px;
+    border-radius: 10px;
+    z-index: 10000; 
+    pointer-events: none; 
+}
+
+/* ===== MODAL DE LOGIN ===== */
+.login-content { background: #0b0e11; border-top: 5px solid var(--oro); width: 90%; max-width: 420px; border-radius: 8px; padding: 30px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: translateY(-20px); transition: all 0.3s ease; overflow: hidden; } 
+.modal.show .login-content { transform: translateY(0); }
+.login-header h2 { font-family: 'Montserrat', sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; margin: 0 0 20px 0; text-align: left;}
+.login-promo { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 6px; padding: 15px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+.login-promo p { margin: 0; font-size: 0.8rem; color: #ddd; font-weight: 600; line-height: 1.4; }
+.login-promo strong { color: var(--oro); display: block; font-size: 0.75rem; margin-top: 4px; }
+.check-icon { color: var(--oro); font-size: 1.2rem; font-weight: bold; }
+.form-group { margin-bottom: 15px; text-align: left; }
+.form-label { display: block; font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 15px; text-align: center;}
+.input-wrapper { position: relative; background: #13171b; border: 1px solid #333; border-radius: 6px; overflow: hidden; transition: border-color 0.3s; margin-bottom: 10px; }
+.input-wrapper:focus-within { border-color: var(--oro); }
+.input-wrapper input { width: 100%; background: transparent; border: none; padding: 15px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 600; outline: none; }
+.input-wrapper input::placeholder { color: #666; font-weight: 500; }
+.eye-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--oro); cursor: pointer; font-size: 1rem; }
+.btn-login-submit { width: 100%; background: var(--oro); color: #000; border: none; padding: 15px; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1rem; letter-spacing: 1px; margin-top: 10px; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+.btn-login-submit:hover { background: #b5952f; transform: translateY(-2px); }
+
+/* ===== MODAL DE RESULTADO ===== */
+.res-content { background: #151515; border: 2px solid var(--oro); padding: 40px; border-radius: 12px; text-align: center; min-width: 380px; transform: scale(0.9); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+.modal.show .res-content { transform: scale(1); }
+
+.res-content.win { border-color: var(--verde-bet); box-shadow: 0 0 40px rgba(46, 204, 113, 0.2); }
+.res-content.lose { border-color: var(--rojo-bet); box-shadow: 0 0 40px rgba(231, 76, 60, 0.2); }
+
+.modal-titulo { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.8rem; letter-spacing: 3px; margin: 0 0 20px 0; color: var(--oro); text-transform: uppercase; }
+.res-content.win .modal-titulo { color: var(--verde-bet); }
+.res-content.lose .modal-titulo { color: var(--rojo-bet); }
+
+.modal-horse-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--oro); object-fit: cover; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.res-content.win .modal-horse-img { border-color: var(--verde-bet); }
+.res-content.lose .modal-horse-img { border-color: var(--rojo-bet); }
+
+.modal-mensaje { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; color: #eee; margin: 0 0 25px 0; line-height: 1.6; }
+.premio-destaque { font-weight: 800; font-size: 2rem; color: var(--oro); display: block; margin-top: 15px; }
+
+.btn-result { 
+    background: transparent; 
+    color: var(--oro); 
+    border: 1px solid var(--oro); 
+    padding: 12px 35px; 
+    font-family: 'Montserrat', sans-serif; 
+    font-weight: 800; 
+    font-size: 0.9rem; 
+    letter-spacing: 2px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    transition: all 0.2s ease; 
+    outline: none;
+}
+.btn-result:hover { 
+    background: var(--oro); 
+    color: var(--dark); 
+    box-shadow: 0 0 15px rgba(212,175,55,0.3); 
+}
+
+/* FOOTER */
+footer { padding: 20px; text-align: center; border-top: 1px solid rgba(212,175,55,.15); font-size: .7rem; letter-spacing: 2px; color: #777; margin-top: 40px;}
+footer span { color: var(--oro); }
+
+/* ===== MEDIA QUERIES (OPTIMIZACIÓN RESPONSIVE TOTAL) ===== */
+@media (max-width: 900px) { 
+    .layout-grid { grid-template-columns: 1fr; } 
+    .grid-fichas { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+    .header { flex-direction: column; gap: 15px; }
+    .user-panel { width: 100%; justify-content: space-between; } 
+    .header-box { padding: 0 10px; font-size: 0.75rem; flex: 1; justify-content: center;}
+    
+    /* CORRECCIÓN: Ajuste de la altura de la cabecera y el encuadre para móvil */
+    .hero { height: 180px; background-position: center 10%; } 
+    
+    .hero h1 { font-size: 1.6rem; letter-spacing: 4px; }
+    .tab-btn { padding: 12px 10px; font-size: 0.7rem; min-width: 140px; }
+    .grid-fichas { grid-template-columns: 1fr; } 
+    .res-content { min-width: 90%; padding: 30px 20px; }
+    .modal-titulo { font-size: 1.4rem; }
+    .login-promo { flex-direction: column; text-align: center; gap: 10px; }
+    .legal-icons { flex-wrap: wrap; }
+    .paddock { grid-template-columns: repeat(2, 1fr); } 
+    
+    .stadium { min-width: 100%; }
+    .lane { height: 45px; padding-left: 70px; }
+    .lane-name { left: 5px; width: 55px; font-size: 0.55rem; }
+    .runner { left: 65px; width: 34px; height: 34px; }
+}
+
+@media (max-width: 400px) {
+    .user-panel { flex-direction: column; }
+    .header-box { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="timer-bar" id="sync-status">SINCRO LIVE · INICIO EN <span id="clock">20</span>S</div>
+
+<div class="header-wrapper">
+    <div class="header">
+        <div class="logo-container">
+            <img src="logo.webp" alt="Isotipo HorseBit" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); background: #1a1a1a;" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZDRhZjM3IiBkPSJNMTEuNSAybS0uNy44bDIgM2gtMmwzIDQuNWMtMi41IDEuNS0zIDQtMyA2djRoNXYyaC0xM3YtMmg0Yy0xLTEuNS0xLjUtMy0xLjUtNSAwLTIgMS00LjUgMy02bC0xLTEuNWgybC0yLTMgMyAxLjV6Ii8+PC9zdmc+'">
+            <span style="font-family: 'Cinzel', serif; letter-spacing: 2px; font-size: 1.4rem; font-weight: 900; color: var(--oro); text-transform: uppercase; margin-left: 5px;">HORSEBIT</span>
+        </div>
+        
+        <div class="user-panel">
+            <div class="header-box credit-box">CRÉDITOS: <strong><span id="saldo">10000.00</span> €</strong></div>
+            <button class="header-box btn-auth" onclick="abrirLogin()">ENTRAR</button>
+        </div>
+    </div>
+</div>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-live">● EN VIVO</div>
+        
+        <p>Evento en directo · Apuestas en tiempo real</p>
+    </div>
+</header>
+
+<nav class="tabs-nav">
+    <button class="tab-btn active" onclick="cambiarVista('carreras')">🏁 Pista y Apuestas</button>
+    <button class="tab-btn" onclick="cambiarVista('fichas')">📋 Fichas Técnicas</button>
+</nav>
+
+<main>
+    <div id="vista-carreras" class="layout-grid">
+        <div class="main-content">
+            <h2 class="section-title">SELECCIÓN DE CABALLOS</h2>
+            <div class="paddock" id="paddock-container"></div>
+
+            <h2 class="section-title">PISTA EN DIRECTO</h2>
+            <div class="stadium-wrapper">
+                <div class="stadium" id="stadium-container">
+                    <div class="meta-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <div class="ticket-panel">
+                <div class="ticket-header">BOLETO DE APUESTA</div>
+                <div id="ticket-content" class="ticket-body">
+                    <div class="empty-msg">Selecciona uno o más caballos para crear tu boleto múltiple.</div>
+                </div>
+                <div id="ticket-summary" class="ticket-summary oculto">
+                    <div class="summary-row"><span>Importe por selección</span> <span>2.00 €</span></div>
+                    <div class="summary-total"><span>TOTAL APOSTADO</span> <span id="ticket-total-val">0.00 €</span></div>
+                </div>
+            </div>
+
+            <div class="ranking-panel">
+                <h2 class="section-title" style="border:none; padding:0; text-align:center;">POSICIÓN EN VIVO</h2>
+                <ul class="ranking-list" id="live-ranking"></ul>
+            </div>
+        </aside>
+    </div>
+
+    <div id="vista-fichas" class="oculto">
+        <h2 class="section-title">ESTADÍSTICAS OFICIALES</h2>
+        <div class="grid-fichas" id="contenedor-fichas"></div>
+    </div>
+</main>
+
+<footer class="footer-official">
+    <div class="disclaimer-academic">⚠️ SIMULACRO DE PROYECTO ACADÉMICO TIC - SIN VALOR REAL ⚠️</div>
+    <div class="legal-icons">
+        <div style="border-radius: 50%; width:35px; height:35px; display:flex; align-items:center; justify-content:center; border:2px solid #444;">18+</div>
+        <div>JUEGO SEGURO</div>
+    </div>
+    <div class="juega-responsable">Juega con Responsabilidad</div>
+    <p>
+    HorseBit es un simulador desarrollado con fines exclusivamente educativos dentro del ciclo ASIR.
+    No permite apuestas reales ni gestiona dinero real.
+    </p>
+    <p>
+    Desarrollado por: Efranyeli Ramirez, Pamela Peguero y Alexis Ferreira
+    </p>
+    <div id="server-time" style="margin-top:20px; font-family:monospace; color:#444;"></div>
+</footer>
+
+<div id="modal-login" class="modal">
+    <div class="login-content">
+        <button class="close-btn" onclick="cerrarLogin()">✕</button>
+        <div class="login-header">
+            <h2>Iniciar sesión</h2>
+        </div>
+        <div class="login-promo">
+            <div>
+                <p>Activa, Deposita y Apuesta para obtener tu Bono Hípico</p>
+                <strong>Bono de Bienvenida al Derby</strong>
+            </div>
+            <span class="check-icon">✔</span>
+        </div>
+        <div class="form-group">
+            <span class="form-label">Información del usuario</span>
+            <div class="input-wrapper">
+                <input type="text" placeholder="Usuario / E-mail *">
+            </div>
+            <div class="input-wrapper">
+                <input type="password" placeholder="Contraseña *">
+                <button class="eye-btn">👁️</button>
+            </div>
+        </div>
+        <button class="btn-login-submit" onclick="cerrarLogin()">ENTRAR</button>
+    </div>
+</div>
+
+<div id="modal-resultado" class="modal">
+    <div class="res-content" id="modal-box">
+        <h2 class="modal-titulo" id="modal-titulo">RESULTADO</h2>
+        <img src="" alt="Caballo Ganador" class="modal-horse-img" id="modal-horse-img">
+        <p class="modal-mensaje" id="modal-mensaje"></p>
+        <button class="btn-result" onclick="cerrarModalRes()">ACEPTAR</button>
+    </div>
+</div>
+
+<script>
+// --- 1. BASE DE DATOS OFICIAL (USANDO .webp SEGÚN TU CARPETA) ---
+const dbOriginal = [
+    { id: 0, nombre: "TRUENO", cuota: 2.0, vel: 85, res: 60, exp: "5 años", img: "trueno.webp", ganadas: 14, derrotas: 6 },
+    { id: 1, nombre: "RELÁMPAGO", cuota: 3.5, vel: 92, res: 40, exp: "3 años", img: "relampago.webp", ganadas: 8, derrotas: 12 },
+    { id: 2, nombre: "PEGASO", cuota: 2.5, vel: 78, res: 85, exp: "6 años", img: "pegaso.webp", ganadas: 22, derrotas: 8 },
+    { id: 3, nombre: "TORNADO", cuota: 4.0, vel: 88, res: 50, exp: "4 años", img: "tornado.webp", ganadas: 5, derrotas: 18 },
+    { id: 4, nombre: "CENTELLA", cuota: 5.0, vel: 95, res: 30, exp: "2 años", img: "centella.webp", ganadas: 3, derrotas: 20 },
+    { id: 5, nombre: "COMETA", cuota: 3.0, vel: 80, res: 75, exp: "4 años", img: "cometa.webp", ganadas: 11, derrotas: 9 }
+];
+
+// Lógica de carga: Forzar uso de .webp si hay cache antiguo.
+let dbGuardada = JSON.parse(localStorage.getItem('horsebit_db'));
+let dbCaballos = dbOriginal;
+
+if (dbGuardada) {
+    dbCaballos = dbGuardada.map((caballo, index) => {
+        caballo.img = dbOriginal[index].img; // Obliga a cargar .webp actuales
+        return caballo;
+    });
+}
+
+// --- 2. ESTADO DE LA APP ---
+let saldo = localStorage.getItem('horsebit_saldo') ? parseFloat(localStorage.getItem('horsebit_saldo')) : 10000.00;
+let timer = 20;
+let carrera = false;
+let apuestas = []; 
+const importeApuesta = 2.00;
+let progreso = new Array(dbCaballos.length).fill(0);
+let intervaloCarrera;
+
+const barra = document.getElementById("sync-status");
+const saldoDOM = document.getElementById("saldo");
+const stadiumContainer = document.getElementById('stadium-container');
+const ticketContent = document.getElementById('ticket-content');
+const ticketSummary = document.getElementById('ticket-summary');
+const ticketTotalVal = document.getElementById('ticket-total-val');
+const rankingList = document.getElementById('live-ranking');
+
+// --- 3. INICIALIZACIÓN ---
+function construirUI() {
+    const paddockContainer = document.getElementById('paddock-container');
+    const fichasContainer = document.getElementById('contenedor-fichas');
+    
+    let htmlPaddock = '';
+    let htmlPista = '<div class="meta-line"></div>'; 
+    let htmlFichas = '';
+
+    const cuotaMinima = Math.min(...dbCaballos.map(c => c.cuota));
+
+    dbCaballos.forEach(c => {
+        let isFav = c.cuota === cuotaMinima ? '<div class="badge-fav">⭐ FAVORITO</div>' : '';
+        let probMatematica = Math.round((1 / c.cuota) * 100);
+
+        htmlPaddock += `
+            <div class="bet-card" onclick="apostar(${c.id})" id="c${c.id}">
+                ${isFav}
+                <h3 style="${isFav ? 'margin-top:15px;' : ''}">${c.nombre}</h3>
+                <span class="odds">x${c.cuota.toFixed(2)}</span>
+                <span class="prob-text">Prob: ${probMatematica}%</span>
+            </div>`;
+
+        htmlPista += `
+            <div class="lane" id="lane-${c.id}">
+                <span class="lane-name">${c.nombre}</span>
+                <img src="${c.img}" class="runner" id="h${c.id}" alt="${c.nombre}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0iIzIyMiI+PGNpcmNsZSBjeD0iMjAi IGN5PSIyMCIgcj0iMjAiLz48L3N2Zz4='">
+            </div>`;
+
+        let totalCarreras = c.ganadas + c.derrotas;
+        let winRate = totalCarreras > 0 ? Math.round((c.ganadas / totalCarreras) * 100) : 0;
+
+        htmlFichas += `
+            <div class="ficha-card">
+                <div class="ficha-header">
+                    <h3>${c.nombre}</h3>
+                    <span class="ficha-cuota">x${c.cuota.toFixed(2)}</span>
+                </div>
+                <div class="record-grid">
+                    <div class="record-box"><span class="record-label">VICTORIAS</span><span class="record-value text-win">${c.ganadas}</span></div>
+                    <div class="record-box"><span class="record-label">WIN RATE</span><span class="record-value" style="color:#fff;">${winRate}%</span></div>
+                    <div class="record-box"><span class="record-label">DERROTAS</span><span class="record-value text-lose">${c.derrotas}</span></div>
+                </div>
+                <div class="stat-bar-container"><div class="stat-row"><span>Velocidad Punta</span> <span>${c.vel}%</span></div><div class="stat-bar"><div class="stat-fill" style="width: ${c.vel}%"></div></div></div>
+                <div class="stat-bar-container"><div class="stat-row"><span>Resistencia</span> <span>${c.res}%</span></div><div class="stat-bar"><div class="stat-fill" style="width: ${c.res}%"></div></div></div>
+            </div>`;
+    });
+
+    paddockContainer.innerHTML = htmlPaddock;
+    stadiumContainer.innerHTML = htmlPista;
+    fichasContainer.innerHTML = htmlFichas;
+    
+    actualizarRankingUI();
+}
+
+function cambiarVista(vista) {
+    document.getElementById('vista-carreras').classList.toggle('oculto', vista !== 'carreras');
+    document.getElementById('vista-fichas').classList.toggle('oculto', vista !== 'fichas');
+    const botones = document.querySelectorAll('.tab-btn');
+    botones[0].classList.toggle('active', vista === 'carreras');
+    botones[1].classList.toggle('active', vista === 'fichas');
+}
+
+function abrirLogin() { document.getElementById('modal-login').classList.add('show'); }
+function cerrarLogin() { document.getElementById('modal-login').classList.remove('show'); }
+
+// --- LÓGICA DE JUEGO ---
+setInterval(() => {
+    if(!carrera){
+        timer--;
+        actualizarColor();
+        if(timer <= 0) iniciarCarrera();
+        document.getElementById("clock").innerText = timer;
+    }
+}, 1000);
+
+function actualizarColor(){
+    if(timer <= 0) barra.style.background = "var(--rojo)";
+    else if(timer <= 5) barra.style.background = "var(--naranja)";
+    else barra.style.background = "var(--verde)";
+}
+
+function apostar(id){
+    if(carrera) return;
+
+    const idx = apuestas.indexOf(id);
+    
+    if(idx !== -1) {
+        saldo += importeApuesta;
+        apuestas.splice(idx, 1);
+    } else {
+        if(saldo < importeApuesta) {
+            alert("⚠️ Saldo insuficiente para realizar esta apuesta. Haz scroll hacia abajo y pulsa 'Reset Data' para reiniciar tu crédito a 10.00 €.");
+            return;
+        }
+        saldo -= importeApuesta;
+        apuestas.push(id);
+    }
+    
+    localStorage.setItem('horsebit_saldo', saldo.toFixed(2));
+    actualizarDOM();
+    actualizarTicket();
+}
+
+function actualizarTicket() {
+    if(apuestas.length === 0) {
+        ticketContent.innerHTML = `<div class="empty-msg">Selecciona uno o más caballos para crear tu boleto múltiple.</div>`;
+        ticketSummary.classList.add('oculto');
+        return;
+    }
+    
+    let html = '';
+    apuestas.forEach(id => {
+        const c = dbCaballos[id];
+        const posible = importeApuesta * c.cuota;
+        html += `
+            <div class="bet-item">
+                <div class="bet-item-header"><span>${c.nombre}</span> <span>x${c.cuota.toFixed(2)}</span></div>
+                <div class="bet-item-details">Apostado: 2.00 € <span>Gana: <strong>${posible.toFixed(2)} €</strong></span></div>
+            </div>
+        `;
+    });
+    
+    ticketContent.innerHTML = html;
+    
+    const totalApostado = apuestas.length * importeApuesta;
+    ticketTotalVal.innerText = `${totalApostado.toFixed(2)} €`;
+    ticketSummary.classList.remove('oculto');
+}
+
+function actualizarDOM(){
+    saldoDOM.innerText = saldo.toFixed(2);
+    dbCaballos.forEach(c => {
+        const card = document.getElementById("c" + c.id);
+        if(card) {
+            card.classList.toggle("selected", apuestas.includes(c.id));
+            card.classList.toggle("disabled", carrera && !apuestas.includes(c.id));
+        }
+    });
+}
+
+function crearPolvo(laneId, x, y) {
+    const lane = document.getElementById(`lane-${laneId}`);
+    const particula = document.createElement('div');
+    particula.className = 'dust-particle';
+    const size = Math.random() * 4 + 2 + 'px';
+    particula.style.width = size;
+    particula.style.height = size;
+    particula.style.left = (x - 10) + 'px'; 
+    particula.style.top = (y + 35) + 'px'; 
+    lane.appendChild(particula);
+    setTimeout(() => particula.remove(), 500);
+}
+
+function actualizarRankingUI() {
+    let estadoCarrera = dbCaballos.map((c, index) => {
+        return { nombre: c.nombre, progreso: progreso[index], id: c.id };
+    });
+    
+    estadoCarrera.sort((a, b) => b.progreso - a.progreso);
+    
+    let html = '';
+    estadoCarrera.forEach((c, i) => {
+        let clasePos = (i < 3) ? `pos-${i+1}` : '';
+        html += `
+            <li class="ranking-item ${clasePos}">
+                <span class="pos-number">${i+1}</span>
+                <span class="rank-name">${c.nombre}</span>
+            </li>
+        `;
+    });
+    rankingList.innerHTML = html;
+}
+
+function iniciarCarrera(){
+    carrera = true;
+    barra.style.background = "var(--rojo)";
+    barra.innerText = "CARRERA EN CURSO · APUESTAS CERRADAS";
+
+    const pistaAncho = stadiumContainer.clientWidth;
+    const isMobile = window.innerWidth <= 600;
+    const inicioX = isMobile ? 65 : 110;
+    const limiteX = pistaAncho - (isMobile ? 20 : 30);
+
+    intervaloCarrera = setInterval(() => {
+        let maxProgreso = 0;
+        
+        for(let i = 0; i < dbCaballos.length; i++){
+            let factorVelocidad = (dbCaballos[i].vel / 100) * 3; 
+            progreso[i] += Math.random() * 8 + factorVelocidad;
+            
+            let actualX = Math.min(inicioX + progreso[i], limiteX);
+            const horse = document.getElementById("h" + i);
+            
+            if(horse) { 
+                horse.style.left = actualX + "px"; 
+                if(actualX > inicioX && actualX < limiteX) {
+                    let actualY = horse.offsetTop;
+                    crearPolvo(i, actualX, actualY);
+                }
+            }
+            if(progreso[i] > maxProgreso) maxProgreso = progreso[i];
+        }
+        
+        actualizarRankingUI();
+        
+        if(maxProgreso >= limiteX - inicioX){
+            clearInterval(intervaloCarrera);
+            finalizar();
+        }
+    }, 100);
+}
+
+function finalizar(){
+    let g = progreso.indexOf(Math.max(...progreso));
+    const caballoGanador = dbCaballos[g];
+    
+    dbCaballos.forEach((caballo, index) => {
+        if(index === g) { caballo.ganadas++; } 
+        else { caballo.derrotas++; }
+    });
+    
+    localStorage.setItem('horsebit_db', JSON.stringify(dbCaballos)); 
+    construirUI();
+    actualizarTicket(); 
+
+    const modal = document.getElementById("modal-resultado");
+    const modalBox = document.getElementById("modal-box");
+    const titulo = document.getElementById("modal-titulo");
+    const horseImg = document.getElementById("modal-horse-img");
+    const mensaje = document.getElementById("modal-mensaje");
+    
+    modalBox.className = "res-content"; 
+    horseImg.src = caballoGanador.img;
+
+    if(apuestas.includes(g)){
+        const premio = importeApuesta * caballoGanador.cuota;
+        saldo += premio;
+        localStorage.setItem('horsebit_saldo', saldo.toFixed(2));
+        
+        modalBox.classList.add("win");
+        titulo.innerText = "¡HAS GANADO!";
+        mensaje.innerHTML = `<strong>${caballoGanador.nombre}</strong> fue el más rápido.<br><br>¡Felicidades! Has acertado tu apuesta.<br><span class="premio-destaque">+${premio.toFixed(2)} €</span>`;
+    } else {
+        modalBox.classList.add("lose");
+        titulo.innerText = "¡HAS PERDIDO!";
+        mensaje.innerHTML = `<strong>${caballoGanador.nombre}</strong> fue el más rápido.<br>Ninguna de tus selecciones ha ganado.`;
+    }
+    
+    modal.classList.add("show");
+    actualizarDOM();
+}
+
+function cerrarModalRes() {
+    document.getElementById("modal-resultado").classList.remove("show");
+    
+    apuestas = []; 
+    actualizarTicket();
+    
+    setTimeout(reiniciar, 300);
+}
+
+function reiniciar(){
+    carrera = false;
+    timer = 20;
+    progreso = new Array(dbCaballos.length).fill(0);
+    
+    const isMobile = window.innerWidth <= 600;
+    
+    dbCaballos.forEach(c => {
+        const horse = document.getElementById("h" + c.id);
+        if(horse) horse.style.left = isMobile ? "65px" : "110px";
+    });
+    
+    actualizarRankingUI();
+    barra.innerHTML = 'SINCRO LIVE · INICIO EN <span id="clock">20</span>S';
+    barra.style.background = "var(--verde)";
+    actualizarDOM();
+}
+
+function resetDatos() {
+    localStorage.removeItem('horsebit_saldo');
+    localStorage.removeItem('horsebit_db');
+    location.reload();
+}
+
+construirUI();
+reiniciar(); 
+actualizarDOM();
+actualizarTicket();
+
+</script>
+</body>
+</html>
