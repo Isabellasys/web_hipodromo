@@ -63,8 +63,8 @@ body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat
 .btn-auth:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
 /* ===== HERO ===== */
-/* CORRECCIÓN: background-position a center 10% para priorizar la visualización de los jinetes y caballos */
-.hero { height: 260px; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("head.webp"); background-size: cover; background-position: center 10%; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid var(--oro); }
+/* CORRECCIÓN: background-position en center (o center 50%) para equilibrar cielo y caballos */
+.hero { height: 260px; background: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.8)), url("assets/head.webp"); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid var(--oro); }
 .hero-content { text-align: center; padding: 0 15px; }
 .hero-live { display: inline-block; background: var(--rojo); padding: 5px 18px; border-radius: 30px; font-size: .75rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 12px; animation: vivo 1.6s infinite; }
 @keyframes vivo { 0% { box-shadow: 0 0 6px rgba(192,57,43,.4); } 50% { box-shadow: 0 0 16px rgba(192,57,43,.9); } 100% { box-shadow: 0 0 6px rgba(192,57,43,.4); } }
@@ -307,8 +307,8 @@ footer span { color: var(--oro); }
     .user-panel { width: 100%; justify-content: space-between; } 
     .header-box { padding: 0 10px; font-size: 0.75rem; flex: 1; justify-content: center;}
     
-    /* CORRECCIÓN: Ajuste de la altura de la cabecera y el encuadre para móvil */
-    .hero { height: 180px; background-position: center 10%; } 
+    /* CORRECCIÓN: Ajuste del encuadre para móvil a center */
+    .hero { height: 180px; background-position: center; } 
     
     .hero h1 { font-size: 1.6rem; letter-spacing: 4px; }
     .tab-btn { padding: 12px 10px; font-size: 0.7rem; min-width: 140px; }
@@ -339,7 +339,7 @@ footer span { color: var(--oro); }
 <div class="header-wrapper">
     <div class="header">
         <div class="logo-container">
-            <img src="logo.webp" alt="Isotipo HorseBit" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); background: #1a1a1a;" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZDRhZjM3IiBkPSJNMTEuNSAybS0uNy44bDIgM2gtMmwzIDQuNWMtMi41IDEuNS0zIDQtMyA2djRoNXYyaC0xM3YtMmg0Yy0xLTEuNS0xLjUtMy0xLjUtNSAwLTIgMS00LjUgMy02bC0xLTEuNWgybC0yLTMgMyAxLjV6Ii8+PC9zdmc+'">
+            <img src="assets/logo.webp" alt="Isotipo HorseBit" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%; box-shadow: 0 0 10px rgba(212, 175, 55, 0.4); background: #1a1a1a;" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZDRhZjM3IiBkPSJNMTEuNSAybS0uNy44bDIgM2gtMmwzIDQuNWMtMi41IDEuNS0zIDQtMyA2djRoNXYyaC0xM3YtMmg0Yy0xLTEuNS0xLjUtMy0xLjUtNSAwLTIgMS00LjUgMy02bC0xLTEuNWgybC0yLTMgMyAxLjV6Ii8+PC9zdmc+'">
             <span style="font-family: 'Cinzel', serif; letter-spacing: 2px; font-size: 1.4rem; font-weight: 900; color: var(--oro); text-transform: uppercase; margin-left: 5px;">HORSEBIT</span>
         </div>
         
@@ -456,14 +456,14 @@ footer span { color: var(--oro); }
 </div>
 
 <script>
-// --- 1. BASE DE DATOS OFICIAL (USANDO .webp SEGÚN TU CARPETA) ---
+// --- 1. BASE DE DATOS OFICIAL ---
 const dbOriginal = [
-    { id: 0, nombre: "TRUENO", cuota: 2.0, vel: 85, res: 60, exp: "5 años", img: "trueno.webp", ganadas: 14, derrotas: 6 },
-    { id: 1, nombre: "RELÁMPAGO", cuota: 3.5, vel: 92, res: 40, exp: "3 años", img: "relampago.webp", ganadas: 8, derrotas: 12 },
-    { id: 2, nombre: "PEGASO", cuota: 2.5, vel: 78, res: 85, exp: "6 años", img: "pegaso.webp", ganadas: 22, derrotas: 8 },
-    { id: 3, nombre: "TORNADO", cuota: 4.0, vel: 88, res: 50, exp: "4 años", img: "tornado.webp", ganadas: 5, derrotas: 18 },
-    { id: 4, nombre: "CENTELLA", cuota: 5.0, vel: 95, res: 30, exp: "2 años", img: "centella.webp", ganadas: 3, derrotas: 20 },
-    { id: 5, nombre: "COMETA", cuota: 3.0, vel: 80, res: 75, exp: "4 años", img: "cometa.webp", ganadas: 11, derrotas: 9 }
+    { id: 0, nombre: "TRUENO", cuota: 2.0, vel: 85, res: 60, exp: "5 años", img: "assets/trueno.webp", ganadas: 14, derrotas: 6 },
+    { id: 1, nombre: "RELÁMPAGO", cuota: 3.5, vel: 92, res: 40, exp: "3 años", img: "assets/relampago.webp", ganadas: 8, derrotas: 12 },
+    { id: 2, nombre: "PEGASO", cuota: 2.5, vel: 78, res: 85, exp: "6 años", img: "assets/pegaso.webp", ganadas: 22, derrotas: 8 },
+    { id: 3, nombre: "TORNADO", cuota: 4.0, vel: 88, res: 50, exp: "4 años", img: "assets/tornado.webp", ganadas: 5, derrotas: 18 },
+    { id: 4, nombre: "CENTELLA", cuota: 5.0, vel: 95, res: 30, exp: "2 años", img: "assets/centella.webp", ganadas: 3, derrotas: 20 },
+    { id: 5, nombre: "COMETA", cuota: 3.0, vel: 80, res: 75, exp: "4 años", img: "assets/cometa.webp", ganadas: 11, derrotas: 9 }
 ];
 
 // Lógica de carga: Forzar uso de .webp si hay cache antiguo.
@@ -472,7 +472,7 @@ let dbCaballos = dbOriginal;
 
 if (dbGuardada) {
     dbCaballos = dbGuardada.map((caballo, index) => {
-        caballo.img = dbOriginal[index].img; // Obliga a cargar .webp actuales
+        caballo.img = dbOriginal[index].img; // Obliga a cargar rutas nuevas
         return caballo;
     });
 }
