@@ -216,6 +216,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .pos-number { font-family: 'Cinzel', serif; font-size: 1.1rem; width: 20px; text-align: center; font-weight: 900;}
 .pos-1 .pos-number { color: var(--oro); font-size: 1.6rem; text-shadow: 0 0 10px rgba(212,175,55,0.5);}
 .rank-name { flex-grow: 1; letter-spacing: 1px; }
+.rank-img { display: none; } /* Oculto en PC, se muestra en móvil */
 
 /* PISTA TEXTURIZADA */
 .stadium-wrapper { border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid #333; overflow-x: hidden; margin-bottom: 20px;}
@@ -332,9 +333,6 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 
 .oculto { display: none !important; }
 
-/* 🔥 BOTÓN APUESTA MÓVIL REPARADO (Oculto en PC por defecto) 🔥 */
-#mobile-bet-btn { display: none; }
-
 /* 🔥 RESPONSIVE Y BOTTOM SHEET APP 🔥 */
 @media (max-width: 1000px) { 
     .layout-row { grid-template-columns: 1fr; } 
@@ -347,19 +345,90 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 /* 🔥 MÓVIL: AJUSTES EXACTOS PEDIDOS 🔥 */
 @media (max-width: 600px) {
     .header { flex-direction: column; gap: 12px; padding: 12px; }
-    
     .hero { height: 12vh; min-height: 80px; } 
     .hero p { display: none; }
-    
     .tab-btn { padding: 10px 5px; font-size: 0.75rem; }
     
+    /* 🔥 NUEVO ORDEN VERTICAL 🔥 */
     #vista-carreras { display: flex; flex-direction: column; }
-    #vista-carreras > .layout-row:nth-child(1) { order: 2; } 
-    #vista-carreras > .layout-row:nth-child(2) { order: 1; width: 100%; margin-bottom: 5px; } 
-    #vista-carreras > .full-width-history { order: 3; }
+    .layout-row { display: contents; } /* Rompe las filas para reordenar todo directo */
     
-    .layout-row { gap: 15px; margin-bottom: 20px; }
+    /* 1. Selección (Paddock) */
+    #vista-carreras > .layout-row:nth-child(1) > .main-column { order: 1; margin-bottom: 15px; width: 100%; }
+    /* 2. Ranking */
+    #vista-carreras > .layout-row:nth-child(2) > .sidebar { order: 2; margin-bottom: 15px; width: 100%; }
+    /* 3. Pista */
+    #vista-carreras > .layout-row:nth-child(2) > .main-column { order: 3; margin-bottom: 15px; width: 100%; }
+    /* 4. Noticias */
+    #vista-carreras > .full-width-history { order: 4; width: 100%; }
     
+    /* El ticket flota, lo mandamos al final del DOM visual */
+    #vista-carreras > .layout-row:nth-child(1) > .sidebar { order: 5; }
+
+    /* 🔥 RANKING HORIZONTAL (SOLO IMÁGENES) 🔥 */
+    .ranking-panel { padding: 10px; text-align: center; }
+    .ranking-panel h2 { font-size: 0.85rem !important; margin-bottom: 10px !important; }
+    .ranking-list { 
+        flex-direction: row; 
+        overflow-x: auto; 
+        gap: 12px; 
+        justify-content: flex-start;
+        padding-bottom: 10px;
+    }
+    .ranking-list::-webkit-scrollbar { display: none; }
+    .ranking-item { 
+        flex-direction: column; 
+        min-width: 65px; 
+        padding: 5px; 
+        background: transparent;
+        border-left: none; 
+        border-bottom: 3px solid #333; 
+        justify-content: center;
+        gap: 5px;
+        transition: none;
+    }
+    .ranking-item.pos-1 { 
+        border-left: none; 
+        border-bottom: 3px solid var(--oro); 
+        padding: 5px; 
+        background: linear-gradient(180deg, rgba(212,175,55,0.15) 0%, transparent 100%);
+        transform: none; 
+        box-shadow: none;
+    }
+    .ranking-item.pos-2 { border-bottom-color: #bdc3c7; }
+    .ranking-item.pos-3 { border-bottom-color: #cd7f32; }
+    
+    .rank-name { display: none; } /* Ocultamos el nombre del caballo */
+    
+    /* Imágenes circulares en el ranking */
+    .rank-img { 
+        display: block; 
+        width: 40px; 
+        height: 40px; 
+        border-radius: 50%; 
+        border: 2px solid var(--metalo); 
+        object-fit: cover; 
+        margin: 0 auto;
+    }
+    .pos-1 .rank-img { 
+        border-color: var(--oro-brillo); 
+        width: 50px; 
+        height: 50px; 
+        box-shadow: 0 0 10px rgba(249, 217, 118, 0.6); 
+    }
+    .pos-number { font-size: 0.8rem; width: auto; text-align: center; margin-bottom: 2px; }
+    .pos-1 .pos-number { font-size: 1rem; color: var(--oro-brillo); text-shadow: none; }
+
+    /* 🔥 ELIMINAR LETRAS BLANCAS EN MÓVIL 🔥 */
+    .hero-live-hero { color: var(--oro-brillo) !important; }
+    .tab-btn:hover { color: var(--oro-brillo) !important; background: rgba(212,175,55,0.05); }
+    .ticket-header { color: var(--oro-brillo) !important; }
+    .bet-item b { color: var(--texto-claro) !important; }
+    .ranking-item.pos-1 { color: var(--oro) !important; }
+    .news-headline { color: var(--oro-brillo) !important; }
+    .ficha-extra-stats span { color: var(--oro-brillo) !important; }
+    h3.card-title { color: var(--oro) !important; }
+
     .grid-fichas { grid-template-columns: 1fr; gap: 10px;} 
     .res-content { min-width: auto; width: 95%; padding: 25px 15px; }
     
@@ -383,10 +452,8 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     .close-sheet { display: inline-block; background: none; border: none; color: var(--oro); float: right; font-size: 1.2rem; cursor: pointer; padding: 0;}
     body { padding-bottom: 80px; } 
     
-    /* 🔥 Aquí se muestran los estilos del botón móvil SÓLO en pantallas pequeñas 🔥 */
     #mobile-bet-btn {
-        display: none; 
-        position: fixed; bottom: 15px; right: 15px; background: var(--oro); color: #000; font-family: 'Cinzel', serif;
+        display: none; position: fixed; bottom: 15px; right: 15px; background: var(--oro); color: #000; font-family: 'Cinzel', serif;
         font-weight: 900; padding: 12px 20px; border-radius: 30px; border: 2px solid #553c00;
         box-shadow: 0 5px 15px rgba(0,0,0,0.8); z-index: 4999; font-size: 0.85rem; letter-spacing: 1px;
     }
@@ -398,7 +465,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     .runner { left: 50px; width: 28px; height: 28px; } 
     .meta-line { width: 10px; }
 
-    .carousel-btn { display: none; } /* En móvil es mejor dejar que deslicen con el dedo */
+    .carousel-btn { display: none; } 
     .news-container::-webkit-scrollbar { display: block; height: 4px; }
     .news-container::-webkit-scrollbar-track { background: #0a0a0a; }
     .news-container::-webkit-scrollbar-thumb { background: var(--oro); border-radius: 4px; }
@@ -822,11 +889,12 @@ function crearPolvo(laneId, x, y) {
 }
 
 function actualizarRankingUI() {
-    let estado = dbCaballos.map((c, i) => ({ nombre: c.nombre, progreso: progreso[i] }));
+    let estado = dbCaballos.map((c, i) => ({ nombre: c.nombre, progreso: progreso[i], img: c.img }));
     estado.sort((a, b) => b.progreso - a.progreso);
     rankingList.innerHTML = estado.map((c, i) => `
         <li class="ranking-item ${i<3 ? 'pos-'+(i+1) : ''}">
             <span class="pos-number">${i+1}</span>
+            <img src="${c.img}" class="rank-img" alt="${c.nombre}">
             <span class="rank-name">${c.nombre}</span>
         </li>`).join('');
 }
