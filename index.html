@@ -459,28 +459,19 @@ footer span { color: var(--oro); }
 <script>
 // --- 1. BASE DE DATOS OFICIAL ---
 const dbOriginal = [
-    { id: 0, nombre: "TRUENO", cuota: 2.0, vel: 85, res: 60, exp: "5 años", img: "assets/trueno.webp", ganadas: 14, derrotas: 6 },
-    { id: 1, nombre: "RELÁMPAGO", cuota: 3.5, vel: 92, res: 40, exp: "3 años", img: "assets/relampago.webp", ganadas: 8, derrotas: 12 },
-    { id: 2, nombre: "PEGASO", cuota: 2.5, vel: 78, res: 85, exp: "6 años", img: "assets/pegaso.webp", ganadas: 22, derrotas: 8 },
-    { id: 3, nombre: "TORNADO", cuota: 4.0, vel: 88, res: 50, exp: "4 años", img: "assets/tornado.webp", ganadas: 5, derrotas: 18 },
-    { id: 4, nombre: "CENTELLA", cuota: 5.0, vel: 95, res: 30, exp: "2 años", img: "assets/centella.webp", ganadas: 3, derrotas: 20 },
-    { id: 5, nombre: "COMETA", cuota: 3.0, vel: 80, res: 75, exp: "4 años", img: "assets/cometa.webp", ganadas: 11, derrotas: 9 }
+    { id: 0, nombre: "TRUENO", cuota: 2.0, vel: 85, res: 60, exp: "5 años", img: "assets/trueno.webp", ganadas: 0, derrotas: 0 },
+    { id: 1, nombre: "RELÁMPAGO", cuota: 3.5, vel: 92, res: 40, exp: "3 años", img: "assets/relampago.webp", ganadas: 0, derrotas: 0 },
+    { id: 2, nombre: "PEGASO", cuota: 2.5, vel: 78, res: 85, exp: "6 años", img: "assets/pegaso.webp", ganadas: 0, derrotas: 0 },
+    { id: 3, nombre: "TORNADO", cuota: 4.0, vel: 88, res: 50, exp: "4 años", img: "assets/tornado.webp", ganadas: 0, derrotas: 0 },
+    { id: 4, nombre: "CENTELLA", cuota: 5.0, vel: 95, res: 30, exp: "2 años", img: "assets/centella.webp", ganadas: 0, derrotas: 0 },
+    { id: 5, nombre: "COMETA", cuota: 3.0, vel: 80, res: 75, exp: "4 años", img: "assets/cometa.webp", ganadas: 0, derrotas: 0 }
 ];
 
-// Lógica de carga: Forzar uso de .webp si hay cache antiguo.
-let dbGuardada = JSON.parse(localStorage.getItem('horsebit_db'));
 let dbCaballos = dbOriginal;
-
-if (dbGuardada) {
-    dbCaballos = dbGuardada.map((caballo, index) => {
-        caballo.img = dbOriginal[index].img; // Obliga a cargar rutas nuevas
-        return caballo;
-    });
-}
 
 // --- 2. ESTADO DE LA APP ---
 let saldo = localStorage.getItem('horsebit_saldo') ? parseFloat(localStorage.getItem('horsebit_saldo')) : 10000.00;
-let timer = 20;
+let timer = 20; 
 let carrera = false;
 let apuestas = []; 
 const importeApuesta = 2.00;
@@ -520,61 +511,49 @@ function construirUI() {
         htmlPista += `
             <div class="lane" id="lane-${c.id}">
                 <span class="lane-name">${c.nombre}</span>
-                <img src="${c.img}" class="runner" id="h${c.id}" alt="${c.nombre}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgZmlsbD0iIzIyMiI+PGNpcmNsZSBjeD0iMjAi IGN5PSIyMCIgcj0iMjAiLz48L3N2Zz4='">
+                <img src="${c.img}" class="runner" id="h${c.id}" alt="${c.nombre}">
             </div>`;
-
-        let totalCarreras = c.ganadas + c.derrotas;
-        let winRate = totalCarreras > 0 ? Math.round((c.ganadas / totalCarreras) * 100) : 0;
 
         htmlFichas += `
             <div class="ficha-card">
-                <div class="ficha-header">
-                    <h3>${c.nombre}</h3>
-                    <span class="ficha-cuota">x${c.cuota.toFixed(2)}</span>
-                </div>
+                <div class="ficha-header"><h3>${c.nombre}</h3><span class="ficha-cuota">x${c.cuota.toFixed(2)}</span></div>
                 <div class="record-grid">
                     <div class="record-box"><span class="record-label">VICTORIAS</span><span class="record-value text-win">${c.ganadas}</span></div>
-                    <div class="record-box"><span class="record-label">WIN RATE</span><span class="record-value" style="color:#fff;">${winRate}%</span></div>
                     <div class="record-box"><span class="record-label">DERROTAS</span><span class="record-value text-lose">${c.derrotas}</span></div>
                 </div>
-                <div class="stat-bar-container"><div class="stat-row"><span>Velocidad Punta</span> <span>${c.vel}%</span></div><div class="stat-bar"><div class="stat-fill" style="width: ${c.vel}%"></div></div></div>
-                <div class="stat-bar-container"><div class="stat-row"><span>Resistencia</span> <span>${c.res}%</span></div><div class="stat-bar"><div class="stat-fill" style="width: ${c.res}%"></div></div></div>
+                <div class="stat-bar-container"><div class="stat-row"><span>Velocidad</span> <span>${c.vel}%</span></div><div class="stat-bar"><div class="stat-fill" style="width: ${c.vel}%"></div></div></div>
             </div>`;
     });
 
     paddockContainer.innerHTML = htmlPaddock;
     stadiumContainer.innerHTML = htmlPista;
     fichasContainer.innerHTML = htmlFichas;
-    
     actualizarRankingUI();
 }
 
-function cambiarVista(vista) {
-    document.getElementById('vista-carreras').classList.toggle('oculto', vista !== 'carreras');
-    document.getElementById('vista-fichas').classList.toggle('oculto', vista !== 'fichas');
-    const botones = document.querySelectorAll('.tab-btn');
-    botones[0].classList.toggle('active', vista === 'carreras');
-    botones[1].classList.toggle('active', vista === 'fichas');
+function cambiarVista(v) {
+    document.getElementById('vista-carreras').classList.toggle('oculto', v !== 'carreras');
+    document.getElementById('vista-fichas').classList.toggle('oculto', v !== 'fichas');
 }
 
 function abrirLogin() { document.getElementById('modal-login').classList.add('show'); }
 function cerrarLogin() { document.getElementById('modal-login').classList.remove('show'); }
 
-// === CORRECCIÓN DEL ERROR DE CONSOLA (EL RELOJ) ===
+// Reloj de cuenta atrás
 setInterval(() => {
     if(!carrera){
         timer--;
-        actualizarColor();
         if(timer <= 0) {
             iniciarCarrera();
         } else {
-            // Este else evita el error "Cannot set properties of null"
-            document.getElementById("clock").innerText = timer;
+            const clockEl = document.getElementById("clock");
+            if(clockEl) clockEl.innerText = timer;
+            actualizarColorBarra();
         }
     }
 }, 1000);
 
-function actualizarColor(){
+function actualizarColorBarra(){
     if(timer <= 0) barra.style.background = "var(--rojo)";
     else if(timer <= 5) barra.style.background = "var(--naranja)";
     else barra.style.background = "var(--verde)";
@@ -582,21 +561,15 @@ function actualizarColor(){
 
 function apostar(id){
     if(carrera) return;
-
     const idx = apuestas.indexOf(id);
-    
     if(idx !== -1) {
         saldo += importeApuesta;
         apuestas.splice(idx, 1);
     } else {
-        if(saldo < importeApuesta) {
-            alert("⚠️ Saldo insuficiente para realizar esta apuesta. Haz scroll hacia abajo y pulsa 'Reset Data' para reiniciar tu crédito a 10.00 €.");
-            return;
-        }
+        if(saldo < importeApuesta) return;
         saldo -= importeApuesta;
         apuestas.push(id);
     }
-    
     localStorage.setItem('horsebit_saldo', saldo.toFixed(2));
     actualizarDOM();
     actualizarTicket();
@@ -604,27 +577,17 @@ function apostar(id){
 
 function actualizarTicket() {
     if(apuestas.length === 0) {
-        ticketContent.innerHTML = `<div class="empty-msg">Selecciona uno o más caballos para crear tu boleto múltiple.</div>`;
+        ticketContent.innerHTML = `<div class="empty-msg">Selecciona caballos para tu boleto.</div>`;
         ticketSummary.classList.add('oculto');
         return;
     }
-    
     let html = '';
     apuestas.forEach(id => {
         const c = dbCaballos[id];
-        const posible = importeApuesta * c.cuota;
-        html += `
-            <div class="bet-item">
-                <div class="bet-item-header"><span>${c.nombre}</span> <span>x${c.cuota.toFixed(2)}</span></div>
-                <div class="bet-item-details">Apostado: 2.00 € <span>Gana: <strong>${posible.toFixed(2)} €</strong></span></div>
-            </div>
-        `;
+        html += `<div class="bet-item"><b>${c.nombre}</b> (x${c.cuota.toFixed(2)}) - Gana: ${(importeApuesta*c.cuota).toFixed(2)}€</div>`;
     });
-    
     ticketContent.innerHTML = html;
-    
-    const totalApostado = apuestas.length * importeApuesta;
-    ticketTotalVal.innerText = `${totalApostado.toFixed(2)} €`;
+    ticketTotalVal.innerText = `${(apuestas.length * importeApuesta).toFixed(2)} €`;
     ticketSummary.classList.remove('oculto');
 }
 
@@ -632,99 +595,65 @@ function actualizarDOM(){
     saldoDOM.innerText = saldo.toFixed(2);
     dbCaballos.forEach(c => {
         const card = document.getElementById("c" + c.id);
-        if(card) {
-            card.classList.toggle("selected", apuestas.includes(c.id));
-            card.classList.toggle("disabled", carrera && !apuestas.includes(c.id));
-        }
+        if(card) card.classList.toggle("selected", apuestas.includes(c.id));
     });
 }
 
 function crearPolvo(laneId, x, y) {
     const lane = document.getElementById(`lane-${laneId}`);
-    const particula = document.createElement('div');
-    particula.className = 'dust-particle';
-    const size = Math.random() * 4 + 2 + 'px';
-    particula.style.width = size;
-    particula.style.height = size;
-    particula.style.left = (x - 10) + 'px'; 
-    particula.style.top = (y + 35) + 'px'; 
-    lane.appendChild(particula);
-    setTimeout(() => particula.remove(), 500);
+    const p = document.createElement('div');
+    p.className = 'dust-particle';
+    p.style.left = (x - 10) + 'px'; 
+    p.style.top = (y + 35) + 'px'; 
+    lane.appendChild(p);
+    setTimeout(() => p.remove(), 500);
 }
 
 function actualizarRankingUI() {
-    let estadoCarrera = dbCaballos.map((c, index) => {
-        return { nombre: c.nombre, progreso: progreso[index], id: c.id };
-    });
-    
-    estadoCarrera.sort((a, b) => b.progreso - a.progreso);
-    
-    let html = '';
-    estadoCarrera.forEach((c, i) => {
-        let clasePos = (i < 3) ? `pos-${i+1}` : '';
-        html += `
-            <li class="ranking-item ${clasePos}">
-                <span class="pos-number">${i+1}</span>
-                <span class="rank-name">${c.nombre}</span>
-            </li>
-        `;
-    });
-    rankingList.innerHTML = html;
+    let estado = dbCaballos.map((c, i) => ({ nombre: c.nombre, progreso: progreso[i] }));
+    estado.sort((a, b) => b.progreso - a.progreso);
+    rankingList.innerHTML = estado.map((c, i) => `
+        <li class="ranking-item ${i<3 ? 'pos-'+(i+1) : ''}">
+            <span class="pos-number">${i+1}</span>
+            <span class="rank-name">${c.nombre}</span>
+        </li>`).join('');
 }
 
-// === ELIMINADO EL MOTOR ALEATORIO DE ESTA FUNCIÓN ===
+// --- MEJORA: MODO PROFESIONAL ---
 function iniciarCarrera(){
+    if(carrera) return; 
     carrera = true;
     barra.style.background = "var(--rojo)";
-    barra.innerText = "CARRERA EN CURSO · ESPERANDO DATOS MQTT";
+    barra.innerText = "¡PISTOLETAZO DE SALIDA! LOS CABALLOS ESTÁN EN PISTA";
 }
 
 function finalizar(){
     let g = progreso.indexOf(Math.max(...progreso));
-    const caballoGanador = dbCaballos[g];
+    const ganador = dbCaballos[g];
     
-    dbCaballos.forEach((caballo, index) => {
-        if(index === g) { caballo.ganadas++; } 
-        else { caballo.derrotas++; }
-    });
-    
-    localStorage.setItem('horsebit_db', JSON.stringify(dbCaballos)); 
-    construirUI();
-    actualizarTicket(); 
-
     const modal = document.getElementById("modal-resultado");
-    const modalBox = document.getElementById("modal-box");
     const titulo = document.getElementById("modal-titulo");
-    const horseImg = document.getElementById("modal-horse-img");
     const mensaje = document.getElementById("modal-mensaje");
-    
-    modalBox.className = "res-content"; 
-    horseImg.src = caballoGanador.img;
+    document.getElementById("modal-horse-img").src = ganador.img;
 
     if(apuestas.includes(g)){
-        const premio = importeApuesta * caballoGanador.cuota;
+        const premio = importeApuesta * ganador.cuota;
         saldo += premio;
         localStorage.setItem('horsebit_saldo', saldo.toFixed(2));
-        
-        modalBox.classList.add("win");
         titulo.innerText = "¡HAS GANADO!";
-        mensaje.innerHTML = `<strong>${caballoGanador.nombre}</strong> fue el más rápido.<br><br>¡Felicidades! Has acertado tu apuesta.<br><span class="premio-destaque">+${premio.toFixed(2)} €</span>`;
+        mensaje.innerHTML = `Ganó <b>${ganador.nombre}</b>. Premio: <span class="premio-destaque">${premio.toFixed(2)}€</span>`;
     } else {
-        modalBox.classList.add("lose");
         titulo.innerText = "¡HAS PERDIDO!";
-        mensaje.innerHTML = `<strong>${caballoGanador.nombre}</strong> fue el más rápido.<br>Ninguna de tus selecciones ha ganado.`;
+        mensaje.innerHTML = `Ganó <b>${ganador.nombre}</b>. No acertaste esta vez.`;
     }
-    
     modal.classList.add("show");
     actualizarDOM();
 }
 
 function cerrarModalRes() {
     document.getElementById("modal-resultado").classList.remove("show");
-    
     apuestas = []; 
     actualizarTicket();
-    
     setTimeout(reiniciar, 300);
 }
 
@@ -732,83 +661,61 @@ function reiniciar(){
     carrera = false;
     timer = 20;
     progreso = new Array(dbCaballos.length).fill(0);
-    
     const isMobile = window.innerWidth <= 600;
-    
     dbCaballos.forEach(c => {
         const horse = document.getElementById("h" + c.id);
         if(horse) horse.style.left = isMobile ? "65px" : "110px";
     });
-    
-    actualizarRankingUI();
     barra.innerHTML = 'SINCRO LIVE · INICIO EN <span id="clock">20</span>S';
     barra.style.background = "var(--verde)";
     actualizarDOM();
 }
 
-function resetDatos() {
-    localStorage.removeItem('horsebit_saldo');
-    localStorage.removeItem('horsebit_db');
-    location.reload();
-}
-
-// ==== CONEXIÓN MQTT A TRAVÉS DE PFSENSE (SSL HABILITADO) ====
+// --- CONEXIÓN MQTT MEJORADA ---
 const brokerIP = "192.168.1.162"; 
 const brokerPort = 9001;
-const mqttClient = new Paho.MQTT.Client(brokerIP, brokerPort, "web_" + parseInt(Math.random() * 1000));
+const mqttClient = new Paho.MQTT.Client(brokerIP, brokerPort, "web_" + Math.random());
 
 mqttClient.onMessageArrived = function (message) {
-    if(!carrera) return; 
-
     try {
         let payload = JSON.parse(message.payloadString); 
         let index = dbCaballos.findIndex(c => c.nombre.toUpperCase() === payload.caballo.toUpperCase());
         
         if(index !== -1 && payload.pos !== undefined) {
+            // Sincronización automática: si llega movimiento y no hemos empezado, ¡fuego!
+            if(payload.pos > 0 && payload.pos < 100 && !carrera) iniciarCarrera();
+
             progreso[index] = payload.pos; 
-            
             const isMobile = window.innerWidth <= 600;
             const inicioX = isMobile ? 65 : 110;
-            const limiteX = document.getElementById('stadium-container').clientWidth - (isMobile ? 20 : 30);
-            const distanciaTotal = limiteX - inicioX;
-            
-            let actualX = inicioX + (payload.pos / 100) * distanciaTotal;
+            const limiteX = stadiumContainer.clientWidth - (isMobile ? 20 : 30);
+            const dist = limiteX - inicioX;
+            let actualX = inicioX + (payload.pos / 100) * dist;
             if(actualX > limiteX) actualX = limiteX;
             
             const horseDiv = document.getElementById("h" + index);
             if(horseDiv) {
-                horseDiv.style.transition = "left 0.3s linear"; 
+                horseDiv.style.transition = "left 0.1s linear"; // Match con el Python
                 horseDiv.style.left = actualX + "px";
-                if(payload.pos > 0 && payload.pos < 100) {
-                    crearPolvo(index, actualX, horseDiv.offsetTop);
-                }
+                if(payload.pos > 0 && payload.pos < 100) crearPolvo(index, actualX, horseDiv.offsetTop);
             }
-            
             actualizarRankingUI();
-            
-            if(payload.pos >= 100) {
+            if(payload.pos >= 100 && carrera) {
                 progreso[index] = 1000; 
                 finalizar();
             }
         }
-    } catch(e) { console.log("Error leyendo el MQTT:", e); }
+    } catch(e) { console.log("Error MQTT:", e); }
 };
 
 mqttClient.connect({
-    useSSL: true, // ESTO QUITA EL ERROR ROJO EN HTTPS
-    onSuccess: function() { 
-        console.log("¡Conectado al MQTT!"); 
-        mqttClient.subscribe("carrera/caballos"); 
-    },
-    onFailure: function(e) {
-        console.log("Error de conexión MQTT:", e);
-    }
+    useSSL: true,
+    onSuccess: () => { mqttClient.subscribe("carrera/caballos"); },
+    onFailure: (e) => { console.log("Fallo MQTT:", e); }
 });
 
 construirUI();
-reiniciar(); 
 actualizarDOM();
-actualizarTicket();
 
 </script>
 </body>
