@@ -560,13 +560,17 @@ function cambiarVista(vista) {
 function abrirLogin() { document.getElementById('modal-login').classList.add('show'); }
 function cerrarLogin() { document.getElementById('modal-login').classList.remove('show'); }
 
-// --- LÓGICA DE JUEGO ---
+// === CORRECCIÓN DEL ERROR DE CONSOLA (EL RELOJ) ===
 setInterval(() => {
     if(!carrera){
         timer--;
         actualizarColor();
-        if(timer <= 0) iniciarCarrera();
-        document.getElementById("clock").innerText = timer;
+        if(timer <= 0) {
+            iniciarCarrera();
+        } else {
+            // Este else evita el error "Cannot set properties of null"
+            document.getElementById("clock").innerText = timer;
+        }
     }
 }, 1000);
 
@@ -668,13 +672,11 @@ function actualizarRankingUI() {
     rankingList.innerHTML = html;
 }
 
-// ==== AQUÍ ESTÁ EL CAMBIO CLAVE PARA QUE NO CHOQUE CON MQTT ====
+// === ELIMINADO EL MOTOR ALEATORIO DE ESTA FUNCIÓN ===
 function iniciarCarrera(){
     carrera = true;
     barra.style.background = "var(--rojo)";
     barra.innerText = "CARRERA EN CURSO · ESPERANDO DATOS MQTT";
-    // IMPORTANTE: He borrado el 'setInterval' aleatorio de aquí.
-    // Ahora los caballos solo se moverán si reciben órdenes por MQTT.
 }
 
 function finalizar(){
@@ -750,13 +752,13 @@ function resetDatos() {
     location.reload();
 }
 
-// ==== CÓDIGO NUEVO DE CONEXIÓN A MQTT ====
-const brokerIP = "192.168.10.101"; // IP del Nodo Central
+// ==== CONEXIÓN MQTT A TRAVÉS DE PFSENSE (SSL HABILITADO) ====
+const brokerIP = "192.168.1.162"; 
 const brokerPort = 9001;
 const mqttClient = new Paho.MQTT.Client(brokerIP, brokerPort, "web_" + parseInt(Math.random() * 1000));
 
 mqttClient.onMessageArrived = function (message) {
-    if(!carrera) return; // Si la carrera no ha empezado, ignora los mensajes.
+    if(!carrera) return; 
 
     try {
         let payload = JSON.parse(message.payloadString); 
@@ -775,7 +777,6 @@ mqttClient.onMessageArrived = function (message) {
             
             const horseDiv = document.getElementById("h" + index);
             if(horseDiv) {
-                // Le damos la animación fluida desde JS para no tocar tu CSS original
                 horseDiv.style.transition = "left 0.3s linear"; 
                 horseDiv.style.left = actualX + "px";
                 if(payload.pos > 0 && payload.pos < 100) {
@@ -785,9 +786,8 @@ mqttClient.onMessageArrived = function (message) {
             
             actualizarRankingUI();
             
-            // Si el caballo llega al 100%, forzamos su victoria y terminamos
             if(payload.pos >= 100) {
-                progreso[index] = 1000; // Esto asegura que la función finalizar() lo elija como ganador
+                progreso[index] = 1000; 
                 finalizar();
             }
         }
@@ -795,6 +795,7 @@ mqttClient.onMessageArrived = function (message) {
 };
 
 mqttClient.connect({
+    useSSL: true, // ESTO QUITA EL ERROR ROJO EN HTTPS
     onSuccess: function() { 
         console.log("¡Conectado al MQTT!"); 
         mqttClient.subscribe("carrera/caballos"); 
@@ -804,7 +805,6 @@ mqttClient.connect({
     }
 });
 
-// Arrancar inicialización base
 construirUI();
 reiniciar(); 
 actualizarDOM();
