@@ -79,7 +79,7 @@ html, body { margin: 0; padding: 0; max-width: 100vw; overflow-x: hidden; backgr
 .tab-btn.active { color: var(--oro); border-bottom: 3px solid var(--oro); background: rgba(212,175,55,0.05); }
 .tab-btn:active { transform: scale(0.98); }
 
-/* GRID PRINCIPAL */
+/* GRID PRINCIPAL (ESTRUCTURA DE DOS COLUMNAS INDEPENDIENTES) */
 main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .layout-row { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; align-items: start; margin-bottom: 30px; }
 
@@ -200,7 +200,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .sello-confirmado { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(3); color: var(--verde-bet); border: 4px solid var(--verde-bet); padding: 10px 20px; font-size: 1.6rem; font-weight: 900; font-family: 'Cinzel', serif; letter-spacing: 3px; border-radius: 8px; opacity: 0; pointer-events: none; z-index: 50; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(0,0,0,0.9); box-shadow: 0 0 40px rgba(46,204,113,0.3);}
 .sello-confirmado.show { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-15deg); }
 
-/* HISTORIAL DEL BOLETO */
+/* HISTORIAL DEL BOLETO (Aparece al confirmar) */
 .history-panel { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; display: none; margin-top: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
 .history-title { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 12px; text-align: center;}
 .history-list { display: flex; flex-direction: column; gap: 6px; }
@@ -225,61 +225,31 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .runner { position: absolute; left: 110px; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--oro); transition: left 0.1s linear;}
 .meta-line { position: absolute; right: 15px; top: 0; width: 20px; height: 100%; background: repeating-linear-gradient(45deg, #fff 0, #fff 10px, #000 10px, #000 20px); z-index: 1; border-left: 4px solid var(--oro);}
 
-/* 🔥 NOTICIAS AMBIENTADAS (CARRUSEL CON FLECHAS) 🔥 */
+/* 🔥 NOTICIAS AMBIENTADAS (SCROLL HORIZONTAL) 🔥 */
 .full-width-history { width: 100%; margin-top: 10px; border-top: 1px solid #222; padding-top: 20px;}
-.carousel-wrapper { position: relative; display: flex; align-items: center; }
-
-/* Botones de flecha */
-.carousel-btn { 
-    background: var(--oro); color: #000; border: none; font-size: 1.2rem; cursor: pointer; 
-    width: 40px; height: 40px; border-radius: 50%; position: absolute; z-index: 10; 
-    font-weight: 900; opacity: 0.9; transition: all 0.3s; 
-    display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.8); border: 2px solid #553c00;
-}
-.carousel-btn:hover { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px var(--oro-brillo); }
-.carousel-btn:active { transform: scale(0.9); }
-.carousel-btn.left { left: -15px; }
-.carousel-btn.right { right: -15px; }
-
-/* Contenedor de noticias */
 .news-container { 
-    display: flex; gap: 15px; background: #0d0e12; border: 1px solid #222; 
-    border-radius: 8px; padding: 15px; overflow-x: auto; scroll-snap-type: x mandatory; 
-    scroll-behavior: smooth; width: 100%;
+    display: flex; gap: 15px; background: #0d0e12; border: 1px solid #222; border-radius: 8px; padding: 15px; 
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
 }
-.news-container::-webkit-scrollbar { display: none; } 
+.news-container::-webkit-scrollbar { height: 8px; }
+.news-container::-webkit-scrollbar-track { background: #0a0a0a; border-radius: 8px;}
+.news-container::-webkit-scrollbar-thumb { background: #333; border-radius: 8px; }
+.news-container::-webkit-scrollbar-thumb:hover { background: var(--oro); }
 
 .news-card { 
     background: #151515; border-left: 3px solid var(--oro); padding: 15px; border-radius: 6px; 
     display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
-    min-width: 300px; max-width: 300px; flex: 0 0 auto; scroll-snap-align: start; white-space: normal;
+    min-width: 300px; flex: 0 0 auto; scroll-snap-align: start; white-space: normal;
 }
 .news-date { font-size: 0.65rem; color: var(--oro); font-weight: 900;}
 .news-headline { font-size: 0.9rem; color: #fff; margin: 0; font-weight: 900; line-height: 1.3;}
 .news-excerpt { font-size: 0.75rem; color: #888; margin: 0; line-height: 1.5; font-family: 'Montserrat', sans-serif;}
 
-/* 🔥 FICHAS TÉCNICAS REPARADAS 🔥 */
+/* FICHAS TÉCNICAS */
 .grid-fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 8px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-.ficha-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 10px; margin-bottom: 15px;}
-.ficha-cuota { background: rgba(212, 175, 55, 0.1); color: var(--oro-brillo); padding: 5px 10px; border-radius: 4px; font-weight: 900; font-size: 0.9rem; border: 1px solid var(--oro-oscuro); }
-
-.ficha-extra-stats p { margin: 8px 0; font-size: 0.85rem; color: #aaa; display: flex; justify-content: space-between; border-bottom: 1px dashed #222; padding-bottom: 4px;}
-.ficha-extra-stats span { color: #fff; font-weight: 700; }
-
-.record-grid { display: flex; gap: 10px; margin: 20px 0; }
-.record-box { background: #0a0a0a; border: 1px solid #222; padding: 10px; border-radius: 6px; text-align: center; flex: 1; display: flex; flex-direction: column; gap: 5px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);}
-.record-label { font-size: 0.7rem; color: #888; letter-spacing: 1px; text-transform: uppercase; font-weight: 700;}
-.record-value { font-size: 1.4rem; font-weight: 900; }
-.text-win { color: var(--verde-bet); text-shadow: 0 0 5px rgba(46, 204, 113, 0.3);}
-.text-lose { color: var(--rojo-bet); text-shadow: 0 0 5px rgba(231, 76, 60, 0.3);}
-
-.stat-bar-container { margin-top: 15px; background: #0f1113; padding: 10px; border-radius: 6px; border: 1px solid #222;}
-.stat-row { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 900; color: #ccc; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;}
-.stat-bar { background: #000; border-radius: 10px; height: 10px; overflow: hidden; border: 1px solid #333;}
-.stat-fill { background: linear-gradient(90deg, #b58010, #f9d976); height: 100%; border-radius: 10px; box-shadow: 0 0 10px rgba(249, 217, 118, 0.5);}
-
+.ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 8px; padding: 20px; }
+.ficha-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 10px; margin-bottom: 10px;}
+.record-box { background: #0a0a0a; border: 1px solid #222; padding: 10px; border-radius: 4px; text-align: center; flex: 1;}
 
 /* 🔥 FOOTER INTACTO Y RESTAURADO 🔥 */
 .footer-official { background: #0a0b0e; color: #666; padding: 40px 20px 30px; border-top: 1px solid #222; margin-top: 20px; font-size: 0.8rem; }
@@ -297,6 +267,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .close-btn:hover { color: #fff; }
 
 .login-content { background: #0b0e11; border-top: 4px solid var(--oro); width: 90%; max-width: 380px; border-radius: 8px; padding: 30px; position: relative; text-align: center;}
+/* 🔥 SELLO DEMO POR ENCIMA DE TODO 🔥 */
 .login-content::after {
     content: 'DEMO'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
     color: rgba(231, 76, 60, 0.4); font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(4rem, 12vw, 6rem); 
@@ -332,15 +303,12 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 
 .oculto { display: none !important; }
 
-/* 🔥 BOTÓN APUESTA MÓVIL REPARADO (Oculto en PC por defecto) 🔥 */
-#mobile-bet-btn { display: none; }
-
 /* 🔥 RESPONSIVE Y BOTTOM SHEET APP 🔥 */
 @media (max-width: 1000px) { 
     .layout-row { grid-template-columns: 1fr; } 
     .grid-fichas { grid-template-columns: repeat(2, 1fr); }
-    .footer-grid { text-align: center; } 
-    .legal-icons span { justify-content: center; } 
+    .footer-grid { text-align: center; } /* RESTAURADO CENTRADO FOOTER */
+    .legal-icons span { justify-content: center; } /* RESTAURADO CENTRADO FOOTER */
     .sidebar { position: relative; top: 0; margin-top: 20px;}
 }
 
@@ -348,14 +316,16 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 @media (max-width: 600px) {
     .header { flex-direction: column; gap: 12px; padding: 12px; }
     
+    /* 1. HERO RECORTADO SIN PIEDAD (Objetivo: Ver caballos sin scroll) */
     .hero { height: 12vh; min-height: 80px; } 
     .hero p { display: none; }
     
     .tab-btn { padding: 10px 5px; font-size: 0.75rem; }
     
+    /* 2. REORDENAR PISTA ARRIBA */
     #vista-carreras { display: flex; flex-direction: column; }
-    #vista-carreras > .layout-row:nth-child(1) { order: 2; } 
-    #vista-carreras > .layout-row:nth-child(2) { order: 1; width: 100%; margin-bottom: 5px; } 
+    #vista-carreras > .layout-row:nth-child(1) { order: 2; } /* Caballos */
+    #vista-carreras > .layout-row:nth-child(2) { order: 1; width: 100%; margin-bottom: 5px; } /* Pista Arriba */
     #vista-carreras > .full-width-history { order: 3; }
     
     .layout-row { gap: 15px; margin-bottom: 20px; }
@@ -363,15 +333,17 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     .grid-fichas { grid-template-columns: 1fr; gap: 10px;} 
     .res-content { min-width: auto; width: 95%; padding: 25px 15px; }
     
+    /* 3. CARDS: 3x3 EN MÓVIL Y SÚPER SIMPLIFICADAS */
     .paddock { grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 10px;} 
     .card-inner { padding: 5px 2px; gap: 2px;}
     .card-img-wrap { width: 35px !important; height: 35px !important; min-width: 35px !important; min-height: 35px !important; margin-bottom: 2px;}
     .card-title { font-size: 0.55rem; }
     .stat-val.gold { font-size: 0.85rem; margin: 1px 0;}
-    .stat-prob { display: none; } 
+    .stat-prob { display: none; } /* OCULTAR EN MÓVIL */
     .btn-apostar-card { padding: 4px; font-size: 0.5rem; margin: 1px 2px; }
     .badge-fav, .badge-risk { font-size: 0.4rem; padding: 1px 4px; }
     
+    /* 4. BOLETO FLOTANTE (BOTTOM SHEET APP) */
     .sidebar { position: static; margin-top: 0;}
     #caja-ticket {
         position: fixed; bottom: -100%; left: 0; width: 100%; z-index: 5000;
@@ -381,27 +353,22 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     }
     #caja-ticket.show-sheet { bottom: 0; }
     .close-sheet { display: inline-block; background: none; border: none; color: var(--oro); float: right; font-size: 1.2rem; cursor: pointer; padding: 0;}
-    body { padding-bottom: 80px; } 
+    body { padding-bottom: 80px; } /* Evita tapar contenido */
     
-    /* 🔥 Aquí se muestran los estilos del botón móvil SÓLO en pantallas pequeñas 🔥 */
     #mobile-bet-btn {
-        display: none; 
+        display: none; /* Activo con JS */
         position: fixed; bottom: 15px; right: 15px; background: var(--oro); color: #000; font-family: 'Cinzel', serif;
         font-weight: 900; padding: 12px 20px; border-radius: 30px; border: 2px solid #553c00;
         box-shadow: 0 5px 15px rgba(0,0,0,0.8); z-index: 4999; font-size: 0.85rem; letter-spacing: 1px;
     }
     #mobile-bet-btn.active { display: block; }
     
+    /* PISTA FINA Y ARRIBA */
     .stadium { background-size: 15px 15px, 50px 50px; }
-    .lane { height: 40px; padding-left: 55px; } 
+    .lane { height: 40px; padding-left: 55px; } /* Pista más fina */
     .lane-name { left: 5px; width: 45px; font-size: 0.55rem; word-wrap: break-word;}
-    .runner { left: 50px; width: 28px; height: 28px; } 
+    .runner { left: 50px; width: 28px; height: 28px; } /* Caballos más pequeños en pista */
     .meta-line { width: 10px; }
-
-    .carousel-btn { display: none; } /* En móvil es mejor dejar que deslicen con el dedo */
-    .news-container::-webkit-scrollbar { display: block; height: 4px; }
-    .news-container::-webkit-scrollbar-track { background: #0a0a0a; }
-    .news-container::-webkit-scrollbar-thumb { background: var(--oro); border-radius: 4px; }
 }
 </style>
 </head>
@@ -495,42 +462,33 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
         </div>
 
         <div class="full-width-history">
-            <h2 class="section-title">NOTICIAS Y EVENTOS DEL HIPÓDROMO</h2>
-            <div class="carousel-wrapper">
-                <button class="carousel-btn left" onclick="scrollNews(-1)">&#10094;</button>
-                <div class="news-container" id="news-slider">
-                    <div class="news-card">
-                        <div class="news-date">HOY - 09:30 AM</div>
-                        <h4 class="news-headline">PEGASO ROMPE MARCA EN ENTRENAMIENTOS</h4>
-                        <p class="news-excerpt">El majestuoso corcel blanco ha sorprendido a todos pulverizando el crono histórico esta mañana. Su nueva dieta ha maximizado su rendimiento en rectas largas.</p>
-                    </div>
-                    <div class="news-card">
-                        <div class="news-date">AYER - 18:00 PM</div>
-                        <h4 class="news-headline">TRUENO SIGUE SIENDO EL REY DE LAS APUESTAS</h4>
-                        <p class="news-excerpt">Las cuotas apuntan a una victoria cómoda para Trueno. Sin embargo, analistas veteranos advierten que su último desempeño en pistas húmedas dejó dudas.</p>
-                    </div>
-                    <div class="news-card">
-                        <div class="news-date">HISTORIAL - TEMP. ANTERIOR</div>
-                        <h4 class="news-headline">EL DÍA QUE COMETA REMONTÓ DESDE EL ÚLTIMO LUGAR</h4>
-                        <p class="news-excerpt">Recordamos la legendaria carrera de otoño donde Cometa, tras un tropiezo en la salida, logró rebasar a 5 competidores en los últimos 200 metros, marcando un hito en el estadio.</p>
-                    </div>
-                    <div class="news-card">
-                        <div class="news-date">EVENTO - PRÓXIMO SÁBADO</div>
-                        <h4 class="news-headline">GRAN SUBASTA ANUAL DE POTRILLOS DE ÉLITE</h4>
-                        <p class="news-excerpt">El pabellón central acogerá la esperada subasta de sangre azul. Se esperan pujas récord por los descendientes directos de campeones retirados como 'Viento Negro'.</p>
-                    </div>
-                    <div class="news-card">
-                        <div class="news-date">HACE 2 DÍAS</div>
-                        <h4 class="news-headline">NUEVO REGLAMENTO EN EL PESAJE DE JINETES</h4>
-                        <p class="news-excerpt">La federación hípica ha implementado controles estrictos. Esta medida busca garantizar el juego limpio y ha generado controversia entre las cuadras tradicionales.</p>
-                    </div>
-                    <div class="news-card">
-                        <div class="news-date">EVENTO VIP - ESTA NOCHE</div>
-                        <h4 class="news-headline">GALA DE PREMIACIÓN EN LAS NUEVAS GRADAS</h4>
-                        <p class="news-excerpt">Las recientemente inauguradas gradas VIP serán sede de la cena benéfica anual. Inversores y jinetes se reunirán para recaudar fondos para el bienestar equino.</p>
-                    </div>
+            <h2 class="section-title">NOTICIAS DEL HIPÓDROMO</h2>
+            <div class="news-container">
+                <div class="news-card">
+                    <div class="news-date">HOY - 09:30 AM</div>
+                    <h4 class="news-headline">PEGASO ROMPE MARCA EN ENTRENAMIENTOS Y ENCIENDE LAS ALARMAS</h4>
+                    <p class="news-excerpt">El majestuoso corcel blanco ha sorprendido a todos pulverizando el crono histórico esta mañana en la pista de arena de preparación. Según su equipo técnico, la nueva dieta y el ajuste en las herraduras han maximizado su rendimiento en rectas largas, lo que le posiciona como una amenaza real para los grandes favoritos del campeonato. ¿Logrará mantener este ritmo en carrera oficial?</p>
                 </div>
-                <button class="carousel-btn right" onclick="scrollNews(1)">&#10095;</button>
+                <div class="news-card">
+                    <div class="news-date">AYER - 18:00 PM</div>
+                    <h4 class="news-headline">TRUENO SIGUE SIENDO EL REY INDISCUTIBLE DE LAS APUESTAS</h4>
+                    <p class="news-excerpt">Las cuotas de hoy apuntan a una victoria cómoda para Trueno, el campeón defensor. Sin embargo, analistas veteranos advierten que su último desempeño en pistas húmedas dejó algunas dudas tácticas. La presión mediática sobre su jinete estrella está en su punto máximo, mientras la afición se pregunta si será capaz de soportar el empuje de rivales agresivos como Cometa en la recta final.</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-date">HACE 2 DÍAS</div>
+                    <h4 class="news-headline">NUEVO REGLAMENTO APLICADO AL TORNEO REGIONAL DE VERANO</h4>
+                    <p class="news-excerpt">La federación hípica ha confirmado la implementación inmediata de controles más estrictos en el pesaje de jinetes e inspección de monturas antes del pistoletazo de salida. Esta medida, impulsada para garantizar el juego limpio y equilibrar la competición de la próxima jornada, ha generado cierta controversia entre las cuadras más tradicionales. Se esperan inspecciones rigurosas en la zona de paddock.</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-date">HACE 4 DÍAS</div>
+                    <h4 class="news-headline">ALERTA POR LLUVIAS EN EL ESTADIO ESTE FIN DE SEMANA</h4>
+                    <p class="news-excerpt">El servicio meteorológico advierte fuertes tormentas que podrían transformar la pista en un terreno fangoso. Esto beneficia claramente a caballos pesados como Centella y Tornado, que históricamente han demostrado una resistencia superior bajo estas condiciones adversas. Los corredores más ligeros tendrán que adaptar sus estrategias si quieren asegurar la victoria.</p>
+                </div>
+                <div class="news-card">
+                    <div class="news-date">HACE 1 SEMANA</div>
+                    <h4 class="news-headline">INVERSIÓN MILLONARIA PARA RENOVAR LAS GRADAS VIP</h4>
+                    <p class="news-excerpt">El hipódromo ha inaugurado su nueva zona VIP con vistas panorámicas y tecnología de apuestas integradas en cada asiento. Este movimiento busca atraer a inversores internacionales y posicionar al recinto como uno de los más modernos de Europa. La directiva asegura que los fondos recaudados irán destinados a mejorar el bienestar de los caballos y jinetes de élite.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -935,13 +893,6 @@ mqttClient.connect({ useSSL: true, onSuccess: () => { mqttClient.subscribe("carr
 
 construirUI();
 actualizarDOM();
-
-// --- LÓGICA DEL CARRUSEL DE NOTICIAS ---
-function scrollNews(direccion) {
-    const slider = document.getElementById("news-slider");
-    const scrollAmount = 315; 
-    slider.scrollBy({ left: direccion * scrollAmount, behavior: 'smooth' });
-}
 </script>
 </body>
 </html>
