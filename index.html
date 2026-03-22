@@ -619,7 +619,6 @@ function actualizarRankingUI() {
         </li>`).join('');
 }
 
-// --- MEJORA: MODO PROFESIONAL ---
 function iniciarCarrera(){
     if(carrera) return; 
     carrera = true;
@@ -679,10 +678,27 @@ const mqttClient = new Paho.MQTT.Client(brokerIP, brokerPort, "web_" + Math.rand
 mqttClient.onMessageArrived = function (message) {
     try {
         let payload = JSON.parse(message.payloadString); 
+
+        // --- 📊 SINCRONIZACIÓN DE ESTADÍSTICAS REALES ---
+        if(payload.comando === "SYNC_STATS") {
+            console.log("Datos recibidos de MariaDB:", payload.datos);
+            payload.datos.forEach(datoDB => {
+                let index = dbCaballos.findIndex(c => c.id === datoDB.id);
+                if(index !== -1) {
+                    dbCaballos[index].ganadas = datoDB.ganadas;
+                    dbCaballos[index].derrotas = datoDB.derrotas;
+                }
+            });
+            // Re-dibujamos la interfaz de fichas con los datos reales
+            construirUI();
+            actualizarDOM();
+            return; // No procesar como movimiento
+        }
+        
+        // --- 🐎 LÓGICA DE MOVIMIENTO ---
         let index = dbCaballos.findIndex(c => c.nombre.toUpperCase() === payload.caballo.toUpperCase());
         
         if(index !== -1 && payload.pos !== undefined) {
-            // Sincronización automática: si llega movimiento y no hemos empezado, ¡fuego!
             if(payload.pos > 0 && payload.pos < 100 && !carrera) iniciarCarrera();
 
             progreso[index] = payload.pos; 
@@ -695,7 +711,7 @@ mqttClient.onMessageArrived = function (message) {
             
             const horseDiv = document.getElementById("h" + index);
             if(horseDiv) {
-                horseDiv.style.transition = "left 0.1s linear"; // Match con el Python
+                horseDiv.style.transition = "left 0.1s linear"; 
                 horseDiv.style.left = actualX + "px";
                 if(payload.pos > 0 && payload.pos < 100) crearPolvo(index, actualX, horseDiv.offsetTop);
             }
@@ -716,7 +732,6 @@ mqttClient.connect({
 
 construirUI();
 actualizarDOM();
-
 </script>
 </body>
 </html>
