@@ -20,8 +20,6 @@
     --rojo-bet: #e74c3c;
     --glass-border: rgba(212, 175, 55, 0.18);
     --gold-glow: drop-shadow(0 0 10px rgba(212, 175, 55, 0.8)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
-    
-    /* Colores de la nueva Pista Oscura */
     --track-bg: #0d0e12;
     --track-line: rgba(212, 175, 55, 0.25);
     --track-text: #d4af37;
@@ -31,14 +29,13 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-/* ===== BARRAS SUPERIORES ===== */
+/* BARRAS SUPERIORES */
 .timer-bar { position: sticky; top: 0; z-index: 3000; background: var(--verde); color: #fff; text-align: center; padding: 12px; font-weight: 800; letter-spacing: 2px; font-size: .85rem; text-transform: uppercase; transition: background .3s; border-bottom: 2px solid #222;}
 .header-wrapper { background: #0f1113; border-bottom: 1px solid var(--glass-border); }
 .header { display: flex; justify-content: space-between; align-items: center; max-width: 1300px; margin: 0 auto; padding: 15px 20px; flex-wrap: wrap; }
 
 .logo-container { display: flex; align-items: center; gap: 12px; }
 
-/* TEXTO DEL LOGO BRILLANTE EN EL HEADER */
 .logo-text-glow {
     font-family: 'Cinzel', serif;
     font-size: 1.6rem;
@@ -69,7 +66,7 @@ body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat
     padding: 2px;
 }
 
-/* ===== PANEL CABECERA ===== */
+/* PANEL CABECERA */
 .user-panel { display: flex; flex-direction: row; align-items: center; gap: 10px; }
 
 .header-box {
@@ -91,51 +88,30 @@ body { margin: 0; background: var(--dark); color: #fff; font-family: 'Montserrat
 .credit-box { color: #ddd; cursor: default; }
 .credit-box strong { color: var(--oro); font-size: 1.15rem; margin-left: 8px; font-weight: 900; }
 
-.btn-auth { color: var(--oro); cursor: pointer; text-transform: uppercase; outline: none; }
-.btn-auth:hover { background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 15px rgba(76, 212, 55, 0.297); }
+.btn-auth { background: rgba(212, 175, 55, 0.1); color: var(--oro); cursor: pointer; text-transform: uppercase; outline: none; transition: all 0.3s ease; }
+.btn-auth:hover { background: var(--oro); color: #000; box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); transform: scale(1.05); }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero { height: 360px; background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.7)), url("assets/head.webp"); background-size: cover; background-position: center 25%; display: flex; justify-content: center; align-items: center; border-bottom: 3px solid var(--oro); position: relative;}
 .hero-content { text-align: center; padding: 0 15px; position: relative; z-index: 10;}
 .hero-live-hero { display: inline-block; background: var(--rojo); padding: 7px 20px; border-radius: 30px; font-size: .8rem; letter-spacing: 3px; font-weight: 800; margin-bottom: 15px; animation: vivo 1.6s infinite; }
 @keyframes vivo { 0% { box-shadow: 0 0 6px rgba(192,57,43,.4); } 50% { box-shadow: 0 0 16px rgba(192,57,43,.9); } 100% { box-shadow: 0 0 6px rgba(192,57,43,.4); } }
-
-/* TEXTO GRANDE Y BRILLANTE DEL HERO */
-.hero-title-glow {
-    font-family: 'Cinzel', serif;
-    font-size: 5rem;
-    letter-spacing: 10px;
-    margin: 0;
-    font-weight: 900;
-    text-transform: uppercase;
-    background: linear-gradient(180deg, #fff 0%, #d4af37 40%, #a67c00 60%, #fff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: var(--gold-glow);
-    animation: goldShineHero 3s infinite alternate;
-}
-
-@keyframes goldShineHero {
-    0% { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.8)); }
-    100% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 1)) drop-shadow(0 0 5px #fff); }
-}
-
 .hero p { font-size: 1.1rem; color: #eee; margin-top: 10px; }
 
-/* ===== NAVEGACIÓN ===== */
-.tabs-nav { display: flex; justify-content: center; background: #0d0f12; border-bottom: 1px solid #222; flex-wrap: wrap; padding: 10px 0;}
-.tab-btn { background: none; border: none; color: #777; padding: 18px 35px; font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 800; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; flex: 1; min-width: 180px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;}
-.tab-btn:hover { color: #fff; }
-.tab-btn.active { color: var(--oro); border-bottom: 3px solid var(--oro); background: rgba(212,175,55,0.05); }
+/* NAVEGACIÓN */
+.tabs-nav { display: flex; justify-content: center; background: #0d0f12; border-bottom: 1px solid #222; flex-wrap: wrap; padding: 15px 10px; gap: 20px;}
+.tab-btn { background: #1a1a1a; border: 2px solid var(--oro); border-radius: 8px; color: #fff; padding: 15px 35px; font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 800; letter-spacing: 2px; cursor: pointer; transition: all 0.3s; text-transform: uppercase; min-width: 180px; text-align: center; display: flex; align-items: center; justify-content: center;}
+.tab-btn:hover { background: rgba(212,175,55,0.2); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
+.tab-btn.active { background: var(--oro); color: var(--dark); border-color: var(--oro); box-shadow: 0 0 20px rgba(212,175,55,0.6); }
 
-/* ===== ESTRUCTURA GRID ===== */
+/* ESTRUCTURA GRID */
 main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 .layout-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 30px; align-items: start; }
 
 .section-title { font-family: 'Cinzel', serif; letter-spacing: 2px; color: #aaa; margin: 0 0 25px 0; font-size: 1.1rem; border-left: 3px solid var(--oro); padding-left: 15px; font-weight: 900; text-transform: uppercase;}
 .oculto { display: none !important; }
 
-/* ===== PADDOCK (TARJETAS ESTILO OSCURO) ===== */
+/* PADDOCK */
 .paddock { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 30px; }
 
 .bet-card {
@@ -251,7 +227,7 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
     color: var(--oro);
 }
 
-/* ===== TICKET MULTI-APUESTA (RÉPLICA IMAGE B39280) ===== */
+/* TICKET MULTI-APUESTA */
 .sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 75px; }
 
 .ticket-panel { 
@@ -344,7 +320,7 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
     font-weight: 900;
 }
 
-/* ===== PISTA (NUEVO DISEÑO "DARK NIGHT") ===== */
+/* PISTA */
 .stadium-wrapper { 
     width: 100%; 
     border-radius: 10px;
@@ -393,7 +369,6 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 }
 @keyframes jockeyBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-/* Línea de meta para pista oscura */
 .meta-line {
     position: absolute;
     right: 20px;
@@ -406,11 +381,10 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
     box-shadow: -5px 0 15px rgba(0,0,0,0.8);
 }
 
-/* Polvo oscuro para pista nocturna */
 .dust-particle { position: absolute; background: rgba(30, 30, 30, 0.6); border-radius: 50%; pointer-events: none; z-index: 5; animation: dustFade 0.5s forwards ease-out; }
 @keyframes dustFade { 0% { transform: scale(1) translateY(0); opacity: 0.8; } 100% { transform: scale(2.5) translateY(-8px); opacity: 0; } }
 
-/* ===== RANKING EN VIVO ===== */
+/* RANKING EN VIVO */
 .ranking-panel { background: #111; border: 1px solid #333; border-radius: 12px; padding: 25px; }
 .ranking-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
 .ranking-item { display: flex; align-items: center; gap: 12px; background: #1a1a1a; padding: 10px 15px; border-radius: 6px; font-size: 0.9rem; font-weight: 700; border-left: 3px solid #444; transition: all 0.2s; }
@@ -421,7 +395,7 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 .pos-1 .pos-number { color: var(--oro); font-weight: 900; }
 .rank-name { flex-grow: 1; letter-spacing: 1px; }
 
-/* ===== FICHAS TÉCNICAS ===== */
+/* FICHAS TÉCNICAS */
 .grid-fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 10px; padding: 25px; }
 .ficha-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 15px; margin-bottom: 20px; }
@@ -438,20 +412,20 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 .stat-bar { width: 100%; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
 .stat-fill { height: 100%; background: var(--oro); }
 
-/* ===== FOOTER OFICIAL ===== */
+/* FOOTER OFICIAL */
 .footer-official { background: #0d0f11; color: #555; padding: 70px 25px 50px; border-top: 1px solid #222; text-align: center; font-size: 0.9rem; }
 .legal-icons { display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 35px; }
 .legal-icons div { border: 1px solid #333; padding: 7px 15px; border-radius: 4px; font-weight: 800; font-size: 0.8rem; color: #444; }
 .juega-responsable { border: 1px solid #444; padding: 12px 30px; display: inline-block; font-weight: 800; letter-spacing: 1px; color: #aaa; margin-bottom: 30px; text-transform: uppercase; background: rgba(255,255,255,0.02); }
 .disclaimer-academic { color: var(--oro); font-weight: 700; margin-bottom: 25px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; border: 1px dashed var(--oro); padding: 12px; display: inline-block; }
 
-/* ===== MODALES (BASE) ===== */
+/* MODALES */
 .modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; overflow: hidden; }
 .modal.show { opacity: 1; visibility: visible; }
 .close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #888; font-size: 1.2rem; cursor: pointer; transition: color 0.2s; z-index: 10001; }
 .close-btn:hover { color: #fff; }
 
-/* ===== SELLO DEMO POR ENCIMA DEL LOGIN ===== */
+/* SELLO DEMO */
 #modal-login::after {
     content: 'DEMO';
     position: absolute;
@@ -471,7 +445,7 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
     pointer-events: none; 
 }
 
-/* ===== MODAL DE LOGIN ===== */
+/* MODAL DE LOGIN */
 .login-content { background: #0b0e11; border-top: 5px solid var(--oro); width: 90%; max-width: 420px; border-radius: 8px; padding: 35px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.8); transform: translateY(-20px); transition: all 0.3s ease; overflow: hidden; } 
 .modal.show .login-content { transform: translateY(0); }
 .login-header h2 { font-family: 'Montserrat', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0 0 25px 0; text-align: left;}
@@ -489,7 +463,7 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 .btn-login-submit { width: 100%; background: var(--oro); color: #000; border: none; padding: 18px; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.1rem; letter-spacing: 1px; margin-top: 12px; cursor: pointer; transition: background 0.2s, transform 0.2s; }
 .btn-login-submit:hover { background: #b5952f; transform: translateY(-3px); }
 
-/* ===== MODAL DE RESULTADO ===== */
+/* MODAL DE RESULTADO */
 .res-content { background: #151515; border: 2px solid var(--oro); padding: 45px; border-radius: 12px; text-align: center; min-width: 400px; transform: scale(0.9); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
 .modal.show .res-content { transform: scale(1); }
 
@@ -532,11 +506,10 @@ main { max-width: 1300px; margin: auto; padding: 30px 20px; min-height: 50vh; }
 footer { padding: 25px; text-align: center; border-top: 1px solid rgba(212,175,55,.15); font-size: .8rem; letter-spacing: 2px; color: #777; margin-top: 40px;}
 footer span { color: var(--oro); }
 
-/* ===== MEDIA QUERIES (OPTIMIZACIÓN RESPONSIVE TOTAL) ===== */
+/* MEDIA QUERIES */
 @media (max-width: 900px) { 
     .layout-grid { grid-template-columns: 1fr; } 
     .grid-fichas { grid-template-columns: repeat(2, 1fr); }
-    .hero-title-glow { font-size: 3.5rem; letter-spacing: 7px; }
 }
 
 @media (max-width: 600px) {
@@ -544,18 +517,19 @@ footer span { color: var(--oro); }
     .user-panel { width: 100%; justify-content: space-between; } 
     .header-box { padding: 0 15px; font-size: 0.8rem; flex: 1; justify-content: center;}
     
-    /* CORRECCIÓN: Ajuste del encuadre para móvil a center */
     .hero { height: 220px; background-position: center; } 
     
     .hero h1 { font-size: 1.8rem; letter-spacing: 5px; }
-    .hero-title-glow { font-size: 2rem; letter-spacing: 5px; }
     .tab-btn { padding: 15px 15px; font-size: 0.75rem; min-width: 150px; }
     .grid-fichas { grid-template-columns: 1fr; } 
     .res-content { min-width: 90%; padding: 35px 25px; }
     .modal-titulo { font-size: 1.6rem; }
     .login-promo { flex-direction: column; text-align: center; gap: 12px; }
     .legal-icons { flex-wrap: wrap; }
-    .paddock { grid-template-columns: 1fr; } 
+    
+    .paddock { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
+    .card-img-wrap { width: 45px; height: 45px; }
+    .card-title { font-size: 1rem; }
     
     .stadium { min-width: 100%; }
     .lane { height: 50px; padding-left: 75px; }
@@ -566,6 +540,9 @@ footer span { color: var(--oro); }
 @media (max-width: 400px) {
     .user-panel { flex-direction: column; gap: 10px;}
     .header-box { width: 100%; }
+    .paddock { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .card-bottom { flex-direction: column; gap: 8px; }
+    .stat-col { flex-direction: row; justify-content: space-between; align-items: center; }
 }
 </style>
 </head>
@@ -591,7 +568,6 @@ footer span { color: var(--oro); }
 <header class="hero">
     <div class="hero-content">
         <div class="hero-live-hero">● EN VIVO</div>
-        <h1 class="hero-title-glow">HORSEBIT</h1>
         <p>Evento en directo · Apuestas en tiempo real</p>
     </div>
 </header>
@@ -696,7 +672,7 @@ footer span { color: var(--oro); }
 </div>
 
 <script>
-// --- 1. BASE DE DATOS OFICIAL MEJORADA (ESTILO `image_21`) ---
+// BASE DE DATOS
 const dbOriginal = [
     { id: 0, nombre: "PEGASO", cuota: 2.50, vel: 78, res: 85, exp: "6 años", img: "assets/pegaso.webp", ganadas: 0, derrotas: 0 },
     { id: 1, nombre: "COMETA", cuota: 3.00, vel: 80, res: 75, exp: "4 años", img: "assets/cometa.webp", ganadas: 0, derrotas: 0 },
@@ -708,11 +684,10 @@ const dbOriginal = [
 
 let dbCaballos = dbOriginal;
 
-// --- 2. ESTADO DE LA APP ---
+// ESTADO
 let saldoStr = localStorage.getItem('horsebit_saldo');
 let saldo = saldoStr ? parseFloat(saldoStr) : 10000.00;
 
-// AUTO-RESET PARA PRUEBAS
 if (isNaN(saldo) || saldo < 2.00) {
     saldo = 10000.00;
     localStorage.setItem('horsebit_saldo', saldo.toFixed(2));
@@ -732,7 +707,7 @@ const ticketSummary = document.getElementById('ticket-summary');
 const ticketTotalVal = document.getElementById('ticket-total-val');
 const rankingList = document.getElementById('live-ranking');
 
-// --- 3. INICIALIZACIÓN ---
+// INICIALIZACION
 function construirUI() {
     const paddockContainer = document.getElementById('paddock-container');
     const fichasContainer = document.getElementById('contenedor-fichas');
@@ -742,7 +717,7 @@ function construirUI() {
     let htmlFichas = '';
 
     dbCaballos.forEach(c => {
-        // --- TARJETAS PRO (ESTILO `image_20`, SIN CORAZÓN NI TROFEO, FUENTES PRO) ---
+        // TARJETAS
         htmlPaddock += `
             <div class="bet-card" onclick="apostar(${c.id})" id="c${c.id}">
                 <div class="card-top">
@@ -771,14 +746,14 @@ function construirUI() {
                 </div>
             </div>`;
 
-        // --- PISTA OSCURA PRO ---
+        // PISTA
         htmlPista += `
             <div class="lane" id="lane-${c.id}">
                 <span class="lane-name">${c.nombre}</span>
                 <img src="${c.img}" class="runner" id="h${c.id}" alt="${c.nombre}">
             </div>`;
 
-        // --- FICHAS TÉCNICAS PRO (IGUAL ESTILO DE TARJETA) ---
+        // FICHAS
         htmlFichas += `
             <div class="ficha-card">
                 <div class="ficha-header"><h3 class="card-title">${c.nombre}</h3><span class="ficha-cuota">x${c.cuota.toFixed(2)}</span></div>
@@ -804,7 +779,6 @@ function cambiarVista(v) {
 function abrirLogin() { document.getElementById('modal-login').classList.add('show'); }
 function cerrarLogin() { document.getElementById('modal-login').classList.remove('show'); }
 
-// Reloj de cuenta atrás
 setInterval(() => {
     if(!carrera){
         timer--;
@@ -824,10 +798,10 @@ function actualizarColorBarra(){
     else barra.style.background = "var(--verde)";
 }
 
-// LÓGICA DE JAVASCRIPT INTACTA CON AVISOS
+// APOSTAR
 function apostar(id){
     if(carrera) {
-        return; // SE ELIMINÓ EL AVISO CUTRE
+        return; 
     }
     const idx = apuestas.indexOf(id);
     if(idx !== -1) {
@@ -835,7 +809,7 @@ function apostar(id){
         apuestas.splice(idx, 1);
     } else {
         if(saldo < importeApuesta) {
-            return; // SE ELIMINÓ EL AVISO CUTRE
+            return; 
         }
         saldo -= importeApuesta;
         apuestas.push(id);
@@ -852,13 +826,13 @@ function actualizarTicket() {
         return;
     }
     let html = '';
-    // SE AJUSTÓ EL HTML PARA REPLICAR LA IMAGEN B39280 EXACTAMENTE, FUENTES PRO Y CÁLCULOS CORRECTOS
+    // HTML TICKET
     apuestas.forEach(id => {
         const c = dbCaballos[id];
         html += `<div class="bet-item"><b>${c.nombre}</b> (x${c.cuota.toFixed(2)}) - Gana: ${(importeApuesta*c.cuota).toFixed(2)}€</div>`;
     });
     ticketContent.innerHTML = html;
-    ticketTotalVal.innerText = `${(apuestas.length * importeApuesta).toFixed(2)} €`; // CÁLCULO DE TOTAL CORREGIDO
+    ticketTotalVal.innerText = `${(apuestas.length * importeApuesta).toFixed(2)} €`; 
     ticketSummary.classList.remove('oculto');
 }
 
@@ -894,7 +868,7 @@ function iniciarCarrera(){
     if(carrera) return; 
     carrera = true;
     barra.style.background = "var(--rojo)";
-    barra.innerText = "¡PISTOLETAZO DE SALIDA! LOS CABALLOS ESTÁN EN PISTA";
+    barra.innerText = "CARRERA EN CURSO";
 }
 
 function finalizar(){
@@ -941,7 +915,7 @@ function reiniciar(){
     actualizarDOM();
 }
 
-// --- CONEXIÓN MQTT INTACTA ---
+// CONEXION MQTT
 const brokerIP = "192.168.1.162"; 
 const brokerPort = 9001;
 const mqttClient = new Paho.MQTT.Client(brokerIP, brokerPort, "web_" + Math.random());
@@ -950,7 +924,7 @@ mqttClient.onMessageArrived = function (message) {
     try {
         let payload = JSON.parse(message.payloadString); 
 
-        // --- 📊 SINCRONIZACIÓN DE ESTADÍSTICAS REALES INTACTA ---
+        // SYNC STATS
         if(payload.comando === "SYNC_STATS") {
             console.log("Datos recibidos de MariaDB:", payload.datos);
             payload.datos.forEach(datoDB => {
@@ -965,7 +939,7 @@ mqttClient.onMessageArrived = function (message) {
             return; 
         }
         
-        // --- 🐎 LÓGICA DE MOVIMIENTO INTACTA ---
+        // MOVIMIENTO
         let index = dbCaballos.findIndex(c => c.nombre.toUpperCase() === payload.caballo.toUpperCase());
         
         if(index !== -1 && payload.pos !== undefined) {
