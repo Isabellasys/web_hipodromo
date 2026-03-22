@@ -56,96 +56,110 @@ html, body { margin: 0; padding: 0; max-width: 100vw; overflow-x: hidden; backgr
 .btn-auth.registro { background: var(--oro); color: #000; font-weight: 900; border: 1px solid var(--oro); }
 .btn-auth.registro:hover { filter: brightness(1.15); box-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
 
-/* HERO */
-.hero { height: 140px; width: 100%; background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.9)), url("assets/head.webp"); background-size: cover; background-position: center 30%; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid var(--oro); }
-.hero-live-hero { display: inline-block; background: var(--rojo); padding: 4px 12px; border-radius: 4px; font-size: .7rem; letter-spacing: 3px; font-weight: 900; color: #fff; animation: vivo 1.6s infinite; margin-bottom: 5px;}
+/* HERO COMPACTO */
+.hero { height: 140px; width: 100%; background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.9)), url("assets/head.webp"); background-size: cover; background-position: center 30%; display: flex; justify-content: center; align-items: center; border-bottom: 2px solid var(--oro); transition: height 0.3s;}
+.hero-content { text-align: center; }
+.hero-live-hero { display: inline-block; background: var(--rojo); padding: 4px 12px; border-radius: 20px; font-size: .7rem; letter-spacing: 3px; font-weight: 900; color: #fff; animation: vivo 1.6s infinite; margin-bottom: 5px;}
 @keyframes vivo { 0% { box-shadow: 0 0 6px rgba(192,57,43,.4); } 50% { box-shadow: 0 0 16px rgba(192,57,43,.9); } 100% { box-shadow: 0 0 6px rgba(192,57,43,.4); } }
+.hero p { font-size: 0.85rem; color: #aaa; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
 
 /* NAVEGACIÓN */
 .tabs-nav { display: flex; justify-content: center; background: #0d0f12; border-bottom: 1px solid #222; }
 .tab-btn { flex: 1; background: transparent; border: none; border-bottom: 3px solid transparent; color: #666; padding: 14px 10px; font-size: 0.9rem; font-weight: 900; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; outline: none; }
+.tab-btn:hover { color: #fff; background: rgba(255,255,255,0.02); }
 .tab-btn.active { color: var(--oro); border-bottom: 3px solid var(--oro); background: rgba(212,175,55,0.05); }
 
-/* GRID ESTRUCTURAL */
+/* GRID PRINCIPAL */
 main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .layout-row { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; align-items: start; margin-bottom: 30px; }
 .section-title { font-size: 1rem; border-left: 4px solid var(--oro); padding-left: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #888; margin-bottom: 15px; display: flex; align-items: center; }
 .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(212, 175, 55, 0.2), transparent); margin-left: 15px; }
 
-/* 🔥 PADDOCK - NUEVO ESTILO FILAS HORIZONTALES (APP STYLE) 🔥 */
-.paddock { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px; }
-
+/* 🔥 TARJETAS CABALLOS 🔥 */
+.paddock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 25px; }
 .bet-card {
     background: linear-gradient(135deg, #1a160a 0%, #050505 100%); 
-    border: 2px solid var(--metalo); 
-    border-radius: 8px; cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex; flex-direction: row; align-items: center; justify-content: space-between;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    padding: 10px 15px; 
-    position: relative; overflow: hidden;
+    border: 3px solid var(--metalo); 
+    border-radius: 6px; 
+    cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; position: relative; text-align: center;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2), inset 0 0 5px rgba(212, 175, 55, 0.1); 
+    padding: 2px; 
 }
-
 .bet-card:hover { 
     border-color: var(--oro-brillo); 
-    background: linear-gradient(135deg, #2a220f 0%, #050505 100%); 
-    box-shadow: 0 0 15px rgba(249, 217, 118, 0.3); 
-    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(249, 217, 118, 0.6), inset 0 0 10px rgba(249, 217, 118, 0.3); 
+    transform: translateY(-2px); z-index: 10; 
 }
-
+.bet-card:active { transform: scale(0.97); } 
 .bet-card.selected { 
     border-color: var(--verde-bet); 
     background: linear-gradient(180deg, #0a1a0f 0%, #050505 100%); 
-    box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); 
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6), inset 0 0 10px rgba(46, 204, 113, 0.2); 
 }
 
-/* Interior Horizontal */
-.card-left { display: flex; align-items: center; gap: 15px; pointer-events: none;}
-.horse-num { font-size: 1.2rem; font-weight: 900; color: var(--oro-oscuro); width: 15px; text-align: center;}
+.badge-wrapper { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: center; z-index: 3;}
+.badge-fav, .badge-risk { 
+    color: var(--texto-oscuro-bet); 
+    font-size: 0.45rem; font-weight: 900; padding: 2px 8px; letter-spacing: 1px; text-transform: uppercase; 
+    border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.5); border-top: none;
+}
+.badge-fav { background: var(--oro-brillo); }
+.badge-risk { background: var(--naranja); }
+.badge-empty { height: 10px; } 
+
+.card-inner { padding: 6px 2px 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; pointer-events: none; flex: 1; z-index: 2;}
 
 .card-img-wrap { 
-    width: 50px !important; height: 50px !important; min-width: 50px !important; min-height: 50px !important; 
-    flex-shrink: 0; border-radius: 8px; border: 2px solid var(--oro); padding: 1px; background: #000; 
+    width: 45px !important; height: 45px !important; min-width: 45px !important; min-height: 45px !important; 
+    flex-shrink: 0; border-radius: 50%; border: 2px solid var(--oro); padding: 1px; background: #000; 
+    transition: transform 0.3s ease; overflow: hidden; margin-bottom: 2px;
     box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
 }
-.card-img-wrap img { width: 100%; height: 100%; border-radius: 6px; object-fit: cover; display: block; }
+.bet-card:hover .card-img-wrap { transform: scale(1.1); box-shadow: 0 0 12px var(--oro-brillo); }
+.card-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
-.card-info { display: flex; flex-direction: column; align-items: flex-start; justify-content: center;}
-.card-title { font-size: 0.9rem; font-weight: 900; color: #fff; margin: 0 0 2px 0; text-transform: uppercase; letter-spacing: 1px;}
-.stat-val.gold { color: var(--oro-brillo); font-size: 1.1rem; font-weight: 900; line-height: 1;}
+.card-title { font-size: 0.65rem; font-weight: 900; color: var(--oro); margin-bottom: 1px; letter-spacing: 1px;}
+.stat-val.gold { color: var(--oro-brillo); font-size: 1rem; font-weight: 900; line-height: 1; text-shadow: 0 0 6px rgba(249,217,118,0.4); margin: 1px 0;}
+.stat-prob { color: #887733; font-size: 0.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;}
 
 .bet-card.selected .card-title { color: var(--verde-bet); }
-.bet-card.selected .stat-val.gold { color: var(--verde-bet); text-shadow: none; }
+.bet-card.selected .stat-val.gold { color: var(--verde-bet); text-shadow: 0 0 8px rgba(46, 204, 113, 0.5); }
+.bet-card.selected .stat-prob { color: #1f8f5f; }
 
-/* Botón Lateral */
 .btn-apostar-card { 
     background: linear-gradient(180deg, var(--oro-brillo) 0%, var(--oro) 50%, var(--oro-oscuro) 100%); 
     color: var(--texto-oscuro-bet); 
-    padding: 10px 15px; font-weight: 900; font-size: 0.75rem; 
-    letter-spacing: 1px; text-transform: uppercase; margin: 0; border-radius: 6px; pointer-events: none; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5); border: 1px solid #553c00;
+    padding: 4px; font-weight: 900; font-size: 0.6rem; letter-spacing: 1px;
+    margin: 2px; border-radius: 3px; border: 1px solid #553c00; box-shadow: 0 2px 4px rgba(0,0,0,0.5); z-index: 2;
 }
-.bet-card.selected .btn-apostar-card { background: var(--verde-bet); color: #000; border-color: #145a32;}
+.bet-card:hover .btn-apostar-card { filter: brightness(1.2); }
+.bet-card.selected .btn-apostar-card { background: var(--verde-bet); color: #000; border-color: #145a32; text-shadow: none;}
 .bet-card .text-apostar::after { content: "APOSTAR"; }
 .bet-card.selected .text-apostar::after { content: "✓ LISTO"; }
 
-/* SIDEBAR FIJA */
-.sidebar { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 60px; z-index: 100;}
-
-/* 🔥 CAJA TICKET 🔥 */
+/* SIDEBAR Y BOLETO (PC) */
+.sidebar { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 60px;}
 .ticket-panel { background: #0d1013; border: 1px solid #222; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 0 10px 25px rgba(0,0,0,0.8);}
 .ticket-header { background: #111; padding: 15px; text-align: center; font-weight: 900; letter-spacing: 2px; border-bottom: 1px solid #222; text-transform: uppercase;}
+.close-sheet { display: none; } /* Oculto en PC */
+
 .ticket-balance { background: #15181c; text-align: center; padding: 10px; border-bottom: 1px solid var(--oro); font-size: 0.7rem; font-weight: 900;}
 .ticket-balance strong { display: block; color: var(--oro); font-size: 1.2rem; margin-top: 2px;}
 .ticket-body { padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 80px;}
 
-.bet-item { border-left: 3px solid var(--oro); padding: 10px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; background: #1a1c20; animation: slideInFlash 0.4s ease forwards; }
-@keyframes slideInFlash { 0% { transform: translateX(30px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+.empty-msg { text-align: center; color: #444; font-style: italic; font-size: 0.85rem; padding: 15px 0; }
+
+@keyframes slideInFlash { 
+    0% { transform: translateX(30px); opacity: 0; background: var(--oro); } 
+    40% { background: rgba(212, 175, 55, 0.3); }
+    100% { transform: translateX(0); opacity: 1; background: #1a1c20; } 
+}
+.bet-item { border-left: 3px solid var(--oro); padding: 10px 12px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; animation: slideInFlash 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 .bet-item b { color: #fff; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; display: block; }
 .remove-btn { background: none; border: none; color: #555; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; padding: 5px; outline: none; }
-.remove-btn:hover { color: var(--rojo-bet); transform: scale(1.3); }
+.remove-btn:hover { color: var(--rojo-bet); transform: scale(1.3) rotate(90deg); }
 
-.ticket-summary { padding: 15px; background: #0a0c0e; border-top: 1px dashed #333;}
+.ticket-summary { padding: 15px; background: #0a0c0e; border-top: 1px dashed #333; }
 .summary-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; font-weight: 700; margin-bottom: 10px; }
 .summary-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;}
 .total-lbl { display: flex; flex-direction: column; line-height: 1.1; font-size: 1.1rem; font-weight: 900; color: #ccc; }
@@ -154,89 +168,38 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 .btn-confirmar { width: 100%; background: var(--oro); color: #000; border: none; padding: 15px; font-weight: 900; font-size: 1rem; letter-spacing: 2px; cursor: pointer; text-transform: uppercase; outline: none;}
 
 /* SELLO VALIDADO */
-.sello-confirmado { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(5); color: var(--verde-bet); border: 4px solid var(--verde-bet); padding: 10px 20px; font-size: 1.6rem; font-weight: 900; opacity: 0; pointer-events: none; z-index: 50; transition: 0.4s ease; background: rgba(0,0,0,0.95); border-radius: 8px;}
+.sello-confirmado { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%) scale(5); color: var(--verde-bet); border: 4px solid var(--verde-bet); padding: 10px 20px; font-size: 1.6rem; font-weight: 900; opacity: 0; pointer-events: none; z-index: 50; transition: 0.4s ease; background: rgba(0,0,0,0.95); border-radius: 8px;}
 .sello-confirmado.show { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-15deg); }
 
+/* BOTÓN FLOTANTE APP MÓVIL (Oculto en PC) */
+#mobile-bet-btn { display: none; }
+
 /* RANKING EN VIVO */
-.ranking-panel { background: #111; border: 1px solid #333; border-radius: 8px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
+.ranking-panel { background: #111; border: 1px solid #333; border-radius: 8px; padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);}
 .ranking-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
-.ranking-item { display: flex; align-items: center; gap: 10px; background: #151515; padding: 10px 12px; border-radius: 4px; font-size: 0.85rem; font-weight: 800; border-left: 3px solid #333; color: #888; transition: all 0.3s; }
-.ranking-item.pos-1 { border-left: 4px solid var(--oro); background: linear-gradient(90deg, rgba(212,175,55,0.1) 0%, #151515 100%); padding: 14px 12px; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.4); transform: scale(1.02); color: #fff;}
-.ranking-item.pos-2 { border-left-color: #bdc3c7; color: #ccc;}
-.ranking-item.pos-3 { border-left-color: #cd7f32; color: #aaa;}
-.pos-number { font-family: 'Cinzel', serif; font-size: 1.1rem; width: 20px; text-align: center; font-weight: 900;}
-.pos-1 .pos-number { color: var(--oro); font-size: 1.6rem; text-shadow: 0 0 10px rgba(212,175,55,0.5);}
-.rank-name { flex-grow: 1; letter-spacing: 1px; }
+.ranking-item { display: flex; align-items: center; gap: 10px; background: #151515; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 900; border-left: 3px solid #333; margin-bottom: 5px;}
+.ranking-item.pos-1 { border-left-color: var(--oro); background: rgba(212,175,55,0.1); color: #fff;}
 
 /* PISTA TEXTURIZADA */
 .stadium-wrapper { border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); border: 2px solid #333; overflow-x: hidden; margin-bottom: 20px;}
 .stadium { background-color: #161412; background-image: repeating-linear-gradient(90deg, rgba(0,0,0,0.3) 0px, rgba(0,0,0,0.3) 2px, transparent 2px, transparent 40px); position: relative; overflow: hidden; }
-.lane { height: 65px; border-bottom: 1px solid rgba(255,255,255,0.03); background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.7) 100%); position: relative; display: flex; align-items: center; padding-left: 120px; }
-.lane:nth-child(even) { background-color: rgba(0,0,0,0.2); }
-.lane:last-child { border-bottom: none; }
-.lane-name { position: absolute; left: 15px; width: 90px; font-size: .75rem; font-weight: 900; letter-spacing: 1px; color: #888; text-transform: uppercase; }
-.runner { position: absolute; left: 110px; width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--oro); object-fit: cover; box-shadow: 3px 5px 10px rgba(0,0,0,0.8); z-index: 10; transition: left 0.1s linear;}
-.meta-line { position: absolute; right: 15px; top: 0; width: 25px; height: 100%; background: repeating-linear-gradient(45deg, #fff 0, #fff 10px, #000 10px, #000 20px); z-index: 1; border-left: 4px solid var(--oro);}
+.lane { height: 60px; border-bottom: 1px solid rgba(255,255,255,0.03); position: relative; display: flex; align-items: center; padding-left: 120px; }
+.lane-name { position: absolute; left: 15px; font-size: .75rem; font-weight: 900; color: #888; text-transform: uppercase; }
+.runner { position: absolute; left: 110px; width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--oro); transition: left 0.1s linear;}
+.meta-line { position: absolute; right: 15px; top: 0; width: 20px; height: 100%; background: repeating-linear-gradient(45deg, #fff 0, #fff 10px, #000 10px, #000 20px); z-index: 1; border-left: 4px solid var(--oro);}
 
 /* FICHAS TÉCNICAS */
 .grid-fichas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s;}
-.ficha-card:hover { transform: translateY(-3px); border-color: var(--oro); box-shadow: 0 8px 15px rgba(0,0,0,0.5);}
-.ficha-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 12px; margin-bottom: 12px; }
-.ficha-header h3 { margin: 0; color: #fff; font-size: 1.1rem; }
-.ficha-cuota { font-weight: 900; background: var(--oro); color: #000; padding: 4px 8px; border-radius: 4px; font-size: 0.9rem; }
-.ficha-extra-stats { background: #0d0e12; border-radius: 6px; padding: 12px; margin-bottom: 12px; border: 1px solid #222; }
-.ficha-extra-stats p { margin: 4px 0; color: #777; font-size: 0.8rem; font-weight: 700; display: flex; justify-content: space-between;}
-.ficha-extra-stats span { color: #fff; font-weight: 900;}
-.record-grid { display: flex; gap: 8px; margin-bottom: 15px; }
-.record-box { background: #0a0a0a; border: 1px solid #222; padding: 12px; border-radius: 6px; text-align: center; flex: 1;}
-.record-label { display: block; font-size: 0.6rem; color: #666; letter-spacing: 1px; margin-bottom: 4px; font-weight: 800; text-transform: uppercase;}
-.record-value { font-weight: 900; font-size: 1.2rem; }
-.text-win { color: var(--verde-bet); }
-.text-lose { color: var(--rojo-bet); }
-.stat-row { margin-bottom: 6px; font-size: 0.75rem; color: #888; display: flex; justify-content: space-between; font-weight: 800;}
-.stat-bar-container { width: 100%; margin-top: auto; }
-.stat-bar { width: 100%; height: 5px; background: #222; border-radius: 3px; overflow: hidden; }
-.stat-fill { height: 100%; background: var(--oro); }
-
-/* FOOTER */
-.footer-official { background: #0a0b0e; color: #666; padding: 40px 20px 30px; border-top: 1px solid #222; margin-top: 20px; font-size: 0.8rem; }
-.footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: left; }
-.footer-col h4 { color: #fff; letter-spacing: 2px; margin-bottom: 15px; font-size: 1rem; border-bottom: 1px solid #333; padding-bottom: 8px;}
-.footer-col p { line-height: 1.5; margin: 0;}
-.legal-icons { display: flex; flex-direction: column; gap: 10px; }
-.legal-icons span { background: #111; border: 1px solid #333; padding: 8px 12px; border-radius: 6px; font-weight: 800; color: #999; display: flex; align-items: center; gap: 10px; font-size: 0.75rem;}
-.footer-bottom { text-align: center; margin-top: 40px; padding-top: 15px; border-top: 1px dashed #333; font-weight: 800; letter-spacing: 2px; color: var(--oro); font-size: 0.75rem;}
+.ficha-card { background: var(--panel); border: 1px solid #333; border-radius: 8px; padding: 20px; }
+.ficha-header { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 10px; margin-bottom: 10px;}
+.record-box { background: #0a0a0a; border: 1px solid #222; padding: 10px; border-radius: 4px; text-align: center; flex: 1;}
 
 /* MODAL LOGIN DEMO */
-.modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-.modal.show { opacity: 1; visibility: visible; }
-.close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer; transition: color 0.2s; z-index: 10001; }
-.close-btn:hover { color: #fff; }
-
 .login-content { background: #0b0e11; border-top: 4px solid var(--oro); width: 90%; max-width: 380px; border-radius: 8px; padding: 30px; position: relative; text-align: center;}
 .login-content::after {
     content: 'DEMO'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg);
     color: rgba(231, 76, 60, 0.15); font-weight: 900; font-size: 5rem; letter-spacing: 10px; border: 6px solid rgba(231, 76, 60, 0.15); padding: 10px; pointer-events: none; 
 }
-.form-wrapper { margin-bottom: 20px; position: relative; z-index: 2;}
-.input-wrapper { background: #13171b; border: 1px solid #333; border-radius: 6px; overflow: hidden; margin-bottom: 12px;}
-.input-wrapper input { width: 100%; background: transparent; border: none; padding: 15px; color: #fff; font-size: 0.95rem; font-weight: 600; outline: none; }
-
-/* MODAL RESULTADO */
-.res-content { background: #151515; border: 3px solid var(--oro); padding: 40px; border-radius: 12px; text-align: center; min-width: 350px; max-width: 90%; transform: scale(0.9); transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
-.modal.show .res-content { transform: scale(1); }
-.res-content.win { border-color: var(--verde-bet); box-shadow: 0 0 50px rgba(46, 204, 113, 0.3); }
-.res-content.lose { border-color: var(--rojo-bet); box-shadow: 0 0 50px rgba(231, 76, 60, 0.3); }
-.modal-titulo { font-weight: 900; font-size: 2.2rem; letter-spacing: 3px; margin: 0 0 20px 0; color: var(--oro); }
-.res-content.win .modal-titulo { color: var(--verde-bet); }
-.res-content.lose .modal-titulo { color: var(--rojo-bet); }
-.modal-horse-img { width: 140px; height: 140px; border-radius: 50%; border: 4px solid var(--oro); object-fit: cover; margin-bottom: 20px; box-shadow: 0 8px 15px rgba(0,0,0,0.5); }
-.res-content.win .modal-horse-img { border-color: var(--verde-bet); }
-.res-content.lose .modal-horse-img { border-color: var(--rojo-bet); }
-.modal-mensaje { font-size: 1.1rem; font-weight: 600; color: #aaa; margin: 0 0 30px 0; }
-.premio-destaque { font-weight: 900; font-size: 2.5rem; color: var(--oro); display: block; margin-top: 10px; text-shadow: 0 0 15px rgba(212,175,55,0.4);}
-.btn-result { background: var(--oro); color: #000; border: none; padding: 15px 40px; font-weight: 900; font-size: 1rem; letter-spacing: 2px; border-radius: 6px; cursor: pointer; text-transform: uppercase;}
 
 /* TOAST */
 .toast-warning {
@@ -248,7 +211,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 
 .oculto { display: none !important; }
 
-/* 🔥 RESPONSIVE Y MOBILE APP LAYOUT 🔥 */
+/* 🔥 RESPONSIVE Y BOTTOM SHEET APP 🔥 */
 @media (max-width: 1000px) { 
     .layout-row { grid-template-columns: 1fr; } 
     .grid-fichas { grid-template-columns: repeat(2, 1fr); }
@@ -257,28 +220,51 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 
 @media (max-width: 600px) {
     .header { flex-direction: column; gap: 12px; padding: 12px; }
-    .hero { height: 110px; } 
+    
+    /* HERO RECORTADO SIN PIEDAD */
+    .hero { height: 80px; } 
+    .hero p { display: none; }
+    
     .tab-btn { padding: 12px 5px; font-size: 0.8rem; }
     .layout-row { gap: 15px; margin-bottom: 20px; }
-    .grid-fichas { grid-template-columns: 1fr; gap: 10px;} 
     
-    /* EN MÓVIL: UNA SOLA COLUMNA DE FILAS HORIZONTALES */
-    .paddock { grid-template-columns: 1fr; gap: 8px;} 
+    /* CARDS AÚN MÁS SIMPLES */
+    .paddock { grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 10px;} 
+    .card-inner { padding: 8px 2px 2px;}
+    .card-img-wrap { width: 35px !important; height: 35px !important; min-width: 35px !important; min-height: 35px !important;}
+    .card-title { font-size: 0.6rem; }
+    .stat-val.gold { font-size: 0.95rem; margin: 1px 0;}
+    .stat-prob { display: none; } /* OCULTAMOS PROBABILIDAD EN MÓVIL */
+    .btn-apostar-card { padding: 4px; font-size: 0.55rem; margin: 1px 2px 2px 2px; }
     
-    /* BOLETO FLOTANTE ESTILO APP */
-    .sidebar { position: static; }
+    .grid-fichas { grid-template-columns: 1fr; } 
+    
+    /* 🔥 BOLETO INFERIOR FLOTANTE (BOTTOM SHEET) 🔥 */
+    .sidebar { position: static; margin-top: 0;}
     #caja-ticket {
-        position: fixed; bottom: 0; left: 0; width: 100%; z-index: 4000;
+        position: fixed; bottom: -100%; left: 0; width: 100%; z-index: 5000;
         border-radius: 20px 20px 0 0; border: 2px solid var(--oro); border-bottom: none;
-        box-shadow: 0 -5px 25px rgba(0,0,0,0.9);
+        box-shadow: 0 -5px 25px rgba(0,0,0,0.9); transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    body { padding-bottom: 90px; } /* Deja espacio para el ticket flotante */
+    #caja-ticket.show-sheet { bottom: 0; }
+    
+    .close-sheet { display: inline-block; background: none; border: none; color: #fff; float: right; font-size: 1.2rem; cursor: pointer;}
+    body { padding-bottom: 80px; } /* Espacio para que no tape contenido el botón flotante */
+    
+    /* BOTÓN FLOTANTE "APUESTA (1)" */
+    #mobile-bet-btn {
+        display: none; /* Se activa con JS */
+        position: fixed; bottom: 15px; right: 15px; background: var(--oro); color: #000; font-family: 'Cinzel', serif;
+        font-weight: 900; padding: 12px 20px; border-radius: 30px; border: 2px solid #553c00;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.8); z-index: 4999; font-size: 0.85rem; letter-spacing: 1px;
+    }
+    #mobile-bet-btn.active { display: block; }
     
     .stadium { background-size: 15px 15px, 50px 50px; }
-    .lane { height: 55px; padding-left: 65px; }
+    .lane { height: 50px; padding-left: 65px; }
     .lane-name { left: 5px; width: 50px; font-size: 0.6rem; word-wrap: break-word;}
-    .runner { left: 60px; width: 35px; height: 35px; }
-    .meta-line { width: 15px; }
+    .runner { left: 60px; width: 32px; height: 32px; }
+    .meta-line { width: 10px; }
 }
 </style>
 </head>
@@ -310,7 +296,7 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 </header>
 
 <nav class="tabs-nav">
-    <button class="tab-btn active" onclick="cambiarVista('carreras')">APUESTA Y PISTA</button>
+    <button class="tab-btn active" onclick="cambiarVista('carreras')">MERCADO</button>
     <button class="tab-btn" onclick="cambiarVista('fichas')">FICHA TÉCNICA</button>
 </nav>
 
@@ -324,26 +310,21 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
             
             <aside class="sidebar">
                 <div class="ticket-panel" id="caja-ticket">
-                    <div class="ticket-header">BOLETO DE APUESTA</div>
-                    
-                    <div class="ticket-balance">
-                        CRÉDITO INVITADO
-                        <strong><span id="saldo">10000.00</span> €</strong>
+                    <div class="ticket-header">
+                        MI APUESTA 
+                        <button class="close-sheet" onclick="toggleBottomSheet()">✕</button>
                     </div>
-
-                    <div id="ticket-content" class="ticket-body">
-                        <div class="empty-msg">Selecciona un caballo para apostar.</div>
-                    </div>
-                    <div id="ticket-summary" class="ticket-summary oculto">
-                        <div class="summary-row"><span>Importe unitario</span> <span>2.00 €</span></div>
-                        <div class="summary-total">
-                            <div class="total-lbl"><span>TOTAL</span><span>APOSTADO</span></div> 
-                            <div class="total-val"><span id="ticket-total-val">0.00 €</span></div>
+                    <div class="ticket-balance">CRÉDITO INVITADO: <strong><span id="saldo">10000.00</span> €</strong></div>
+                    <div id="ticket-content" class="ticket-body"><div class="empty-msg">Selecciona un caballo...</div></div>
+                    <div id="ticket-summary" class="oculto">
+                        <div style="padding:15px; background:#0a0c0e; border-top:1px dashed #333;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-weight:900;">
+                                <span>TOTAL:</span> <span id="ticket-total-val" style="color:var(--oro);">0.00 €</span>
+                            </div>
+                            <button class="btn-confirmar" onclick="confirmarApuestaUI()">CONFIRMAR APUESTA</button>
                         </div>
-                        <button class="btn-confirmar" onclick="confirmarApuestaUI()">CONFIRMAR APUESTA</button>
                     </div>
-                    
-                    <div id="sello-ok" class="sello-confirmado">CONFIRMADO</div>
+                    <div id="sello-ok" class="sello-confirmado">VALIDADO</div>
                 </div>
             </aside>
         </div>
@@ -372,6 +353,8 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
         <div class="grid-fichas" id="contenedor-fichas"></div>
     </div>
 </main>
+
+<button id="mobile-bet-btn" onclick="toggleBottomSheet()">🧾 APUESTA (<span id="mobile-bet-count">0</span>)</button>
 
 <footer class="footer-official">
     <div class="footer-grid">
@@ -402,38 +385,36 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 <div id="modal-login" class="modal">
     <div class="login-content">
         <button class="close-btn" onclick="cerrarLogin()">✕</button>
-        <div class="login-header"><h2>ACCESO</h2></div>
+        <h2 style="font-weight:900; margin-bottom:25px;">ACCESO USUARIO</h2>
         <div class="form-wrapper">
-            <div class="input-wrapper"><input type="text" placeholder="Usuario / E-mail"></div>
-            <div class="input-wrapper"><input type="password" placeholder="Contraseña"></div>
+            <input type="text" placeholder="USUARIO" style="width:100%; padding:15px; margin-bottom:10px; background:#111; border:1px solid #333; color:#fff; font-weight:900;">
+            <input type="password" placeholder="PASSWORD" style="width:100%; padding:15px; background:#111; border:1px solid #333; color:#fff; font-weight:900;">
         </div>
-        <button class="btn-login-submit" onclick="cerrarLogin()">ENTRAR AL SISTEMA</button>
+        <button class="btn-confirmar" onclick="cerrarLogin()" style="margin-top:20px; border-radius:4px;">ENTRAR</button>
     </div>
 </div>
 
 <div id="modal-resultado" class="modal">
     <div class="res-content" id="modal-box">
-        <h2 class="modal-titulo" id="modal-titulo">RESULTADO</h2>
-        <img src="" alt="Caballo Ganador" class="modal-horse-img" id="modal-horse-img">
-        <p class="modal-mensaje" id="modal-mensaje"></p>
-        <button class="btn-result" onclick="cerrarModalRes()">ACEPTAR</button>
+        <h2 id="modal-titulo" style="font-size:2rem; margin-bottom:20px; font-weight:900;">RESULTADO</h2>
+        <img src="" id="modal-horse-img" style="width:120px; height:120px; border-radius:50%; border:3px solid var(--oro); margin-bottom:20px;">
+        <p id="modal-mensaje" style="font-weight:900; color:#ccc; letter-spacing:1px;"></p>
+        <button class="btn-confirmar" onclick="cerrarModalRes()" style="margin-top:20px; border-radius:4px;">CONTINUAR</button>
     </div>
 </div>
 
 <script>
 // --- BASE DE DATOS INTACTA ---
 const dbOriginal = [
-    { id: 0, nombre: "PEGASO", cuota: 2.50, vel: 78, res: 85, exp: "6 años", img: "assets/pegaso.webp", ganadas: 0, derrotas: 0 },
-    { id: 1, nombre: "COMETA", cuota: 3.00, vel: 80, res: 75, exp: "4 años", img: "assets/cometa.webp", ganadas: 0, derrotas: 0 },
-    { id: 2, nombre: "CENTELLA", cuota: 5.50, vel: 95, res: 30, exp: "2 años", img: "assets/centella.webp", ganadas: 0, derrotas: 0 },
-    { id: 3, nombre: "RELÁMPAGO", cuota: 3.50, vel: 92, res: 40, exp: "3 años", img: "assets/relampago.webp", ganadas: 0, derrotas: 0 },
-    { id: 4, nombre: "TRUENO", cuota: 2.00, vel: 85, res: 60, exp: "5 años", img: "assets/trueno.webp", ganadas: 0, derrotas: 0 },
-    { id: 5, nombre: "TORNADO", cuota: 4.00, vel: 88, res: 50, exp: "4 años", img: "assets/tornado.webp", ganadas: 0, derrotas: 0 }
+    { id: 0, nombre: "PEGASO", cuota: 2.50, vel: 78, res: 85, img: "assets/pegaso.webp", ganadas: 15, derrotas: 40 },
+    { id: 1, nombre: "COMETA", cuota: 3.00, vel: 80, res: 75, img: "assets/cometa.webp", ganadas: 10, derrotas: 35 },
+    { id: 2, nombre: "CENTELLA", cuota: 5.50, vel: 95, res: 30, img: "assets/centella.webp", ganadas: 5, derrotas: 55 },
+    { id: 3, nombre: "RELÁMPAGO", cuota: 3.50, vel: 92, res: 40, img: "assets/relampago.webp", ganadas: 8, derrotas: 30 },
+    { id: 4, nombre: "TRUENO", cuota: 2.00, vel: 85, res: 60, img: "assets/trueno.webp", ganadas: 25, derrotas: 12 },
+    { id: 5, nombre: "TORNADO", cuota: 4.00, vel: 88, res: 50, img: "assets/tornado.webp", ganadas: 7, derrotas: 28 }
 ];
 
 let dbCaballos = dbOriginal;
-
-// --- ESTADO INTACTO ---
 let saldoStr = localStorage.getItem('horsebit_saldo');
 let saldo = saldoStr ? parseFloat(saldoStr) : 10000.00;
 if (isNaN(saldo) || saldo < 2.00) { saldo = 10000.00; localStorage.setItem('horsebit_saldo', saldo.toFixed(2)); }
@@ -453,7 +434,6 @@ const ticketTotalVal = document.getElementById('ticket-total-val');
 const rankingList = document.getElementById('live-ranking');
 
 // --- RENDERIZADO UX/UI ---
-// *ATENCIÓN*: El único cambio aquí es el HTML que genera las filas horizontales. La lógica es IDÉNTICA.
 function construirUI() {
     const paddockContainer = document.getElementById('paddock-container');
     const fichasContainer = document.getElementById('contenedor-fichas');
@@ -463,18 +443,23 @@ function construirUI() {
     let htmlFichas = '';
 
     let minCuota = Math.min(...dbCaballos.map(c => c.cuota));
+    let maxCuota = Math.max(...dbCaballos.map(c => c.cuota));
 
-    dbCaballos.forEach((c, index) => {
-        // 🔥 MODIFICACIÓN HTML: Tarjeta Horizontal tipo App 🔥
+    dbCaballos.forEach(c => {
+        let badgeHTML = '<div class="badge-empty"></div>';
+        if(c.cuota === minCuota) badgeHTML = '<div class="badge-wrapper"><div class="badge-fav">⭐ FAVORITO</div></div>';
+        else if (c.cuota === maxCuota) badgeHTML = '<div class="badge-wrapper"><div class="badge-risk">🔥 ALTA CUOTA</div></div>';
+
+        let probabilidad = Math.round((1 / c.cuota) * 100);
+
         htmlPaddock += `
             <div class="bet-card" onclick="apostar(${c.id})" id="c${c.id}">
-                <div class="card-left">
-                    <span class="horse-num">${index + 1}</span>
-                    <div class="card-img-wrap"><img src="${c.img}" alt="${c.nombre}"></div>
-                    <div class="card-info">
-                        <h3 class="card-title">${c.nombre}</h3>
-                        <span class="stat-val gold">${c.cuota.toFixed(2)}</span>
-                    </div>
+                ${badgeHTML}
+                <div class="card-inner">
+                    <div class="card-img-wrap"><img src="${c.img}"></div>
+                    <span class="stat-val gold">x${c.cuota.toFixed(2)}</span>
+                    <h3 class="card-title">${c.nombre}</h3>
+                    <span class="stat-prob">PROB: ${probabilidad}%</span>
                 </div>
                 <div class="btn-apostar-card text-apostar" id="txt-${c.id}"></div>
             </div>`;
@@ -482,27 +467,21 @@ function construirUI() {
         htmlPista += `
             <div class="lane" id="lane-${c.id}">
                 <span class="lane-name">${c.nombre}</span>
-                <img src="${c.img}" class="runner" id="h${c.id}" alt="${c.nombre}">
+                <img src="${c.img}" class="runner" id="h${c.id}" style="left:110px;">
             </div>`;
 
         htmlFichas += `
             <div class="ficha-card">
                 <div class="ficha-header">
-                    <h3 class="card-title" style="font-size:1.1rem; color:#fff;">${c.nombre}</h3>
-                    <span class="ficha-cuota">x${c.cuota.toFixed(2)}</span>
+                    <h3 style="margin:0; color:#fff; font-size:1.1rem;">${c.nombre}</h3>
+                    <span class="ficha-cuota" style="color:var(--oro); font-weight:900;">x${c.cuota.toFixed(2)}</span>
                 </div>
-                <div class="ficha-extra-stats">
-                    <p>Experiencia: <span>${c.exp}</span></p>
-                    <p>Resistencia: <span>${c.res}%</span></p>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div class="record-box"><span class="record-label" style="font-size:0.6rem; color:#666;">VICTORIAS</span><span style="color:var(--verde-bet); font-weight:900; font-size:1.2rem;">${c.ganadas}</span></div>
+                    <div class="record-box"><span class="record-label" style="font-size:0.6rem; color:#666;">DERROTAS</span><span style="color:var(--rojo-bet); font-weight:900; font-size:1.2rem;">${c.derrotas}</span></div>
                 </div>
-                <div class="record-grid">
-                    <div class="record-box"><span class="record-label">VICTORIAS</span><span class="record-value text-win">${c.ganadas}</span></div>
-                    <div class="record-box"><span class="record-label">DERROTAS</span><span class="record-value text-lose">${c.derrotas}</span></div>
-                </div>
-                <div class="stat-bar-container">
-                    <div class="stat-row"><span>Velocidad</span> <span>${c.vel}%</span></div>
-                    <div class="stat-bar"><div class="stat-fill" style="width: ${c.vel}%"></div></div>
-                </div>
+                <div style="font-size:0.7rem; font-weight:900; color:#888;">VELOCIDAD: ${c.vel}%</div>
+                <div style="width:100%; height:5px; background:#222; margin-top:5px; border-radius:3px; overflow:hidden;"><div style="width:${c.vel}%; height:100%; background:var(--oro);"></div></div>
             </div>`;
     });
 
@@ -516,14 +495,17 @@ function construirUI() {
 function cambiarVista(v) {
     document.getElementById('vista-carreras').classList.toggle('oculto', v !== 'carreras');
     document.getElementById('vista-fichas').classList.toggle('oculto', v !== 'fichas');
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-btn')[v === 'carreras' ? 0 : 1].classList.add('active');
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (v==='carreras'&&i===0)||(v==='fichas'&&i===1)));
 }
 
 function abrirLogin() { document.getElementById('modal-login').classList.add('show'); }
 function cerrarLogin() { document.getElementById('modal-login').classList.remove('show'); }
 
-// --- 🔥 TOAST VISUAL DE AVISO 🔥 ---
+// --- 🔥 FUNCIONES BOTTOM SHEET MÓVIL 🔥 ---
+function toggleBottomSheet() {
+    document.getElementById("caja-ticket").classList.toggle("show-sheet");
+}
+
 function mostrarAviso(mensaje) {
     const toast = document.getElementById("toast-aviso");
     toast.innerText = mensaje;
@@ -572,6 +554,19 @@ function apostar(id){
 }
 
 function actualizarTicket() {
+    // Lógica Móvil Botón Flotante
+    const mobileBtn = document.getElementById("mobile-bet-btn");
+    const mobileCount = document.getElementById("mobile-bet-count");
+    if(mobileBtn && mobileCount) {
+        if(apuestas.length > 0) {
+            mobileBtn.classList.add("active");
+            mobileCount.innerText = apuestas.length;
+        } else {
+            mobileBtn.classList.remove("active");
+            document.getElementById("caja-ticket").classList.remove("show-sheet");
+        }
+    }
+
     if(apuestas.length === 0) {
         ticketContent.innerHTML = `<div class="empty-msg">Selecciona un caballo para apostar.</div>`;
         ticketSummary.classList.add('oculto');
@@ -582,8 +577,11 @@ function actualizarTicket() {
         const c = dbCaballos[id];
         html += `
         <div class="bet-item">
-            <div><b>${c.nombre}</b> <span style="color:#888;">(x${c.cuota.toFixed(2)})</span><br><span style="color:var(--verde-bet);font-size:0.75rem; font-weight:800;">Gana: ${(importeApuesta*c.cuota).toFixed(2)}€</span></div>
-            <button class="remove-btn" onclick="event.stopPropagation(); apostar(${id});" title="Quitar">✕</button>
+            <div><b style="font-size:0.75rem;">${c.nombre}</b> <span style="color:#888;">(x${c.cuota.toFixed(2)})</span></div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="color:var(--oro); font-weight:900;">2.00 €</span>
+                <button class="remove-btn" onclick="event.stopPropagation(); apostar(${id});" title="Quitar">✕</button>
+            </div>
         </div>`;
     });
     ticketContent.innerHTML = html;
@@ -594,6 +592,11 @@ function actualizarTicket() {
 function confirmarApuestaUI() {
     if(apuestas.length === 0) return;
     document.getElementById("sello-ok").classList.add("show");
+    
+    // Cierra el Bottom Sheet en móvil después de confirmar
+    setTimeout(() => {
+        document.getElementById("caja-ticket").classList.remove("show-sheet");
+    }, 1500);
 }
 
 function actualizarDOM(){
