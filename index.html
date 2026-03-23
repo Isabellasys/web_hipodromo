@@ -344,7 +344,13 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
 
 /* 🔥 MÓVIL: AJUSTES EXACTOS PEDIDOS 🔥 */
 @media (max-width: 600px) {
-    .header { flex-direction: column; gap: 12px; padding: 12px; }
+    /* 1. Header en una línea, sin logo y botones al lado */
+    .header { flex-direction: row !important; justify-content: space-between !important; padding: 8px 10px !important; }
+    .logo-img { display: none !important; }
+    .logo-text-glow { font-size: 1.1rem !important; }
+    .user-panel { gap: 5px !important; }
+    .btn-auth { padding: 0 10px !important; font-size: 0.7rem !important; height: 30px !important; }
+
     .hero { height: 12vh; min-height: 80px; } 
     .hero p { display: none; }
     .tab-btn { padding: 10px 5px; font-size: 0.75rem; }
@@ -365,32 +371,32 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     /* El ticket flota, lo mandamos al final del DOM visual */
     #vista-carreras > .layout-row:nth-child(1) > .sidebar { order: 5; }
 
-    /* 🔥 RANKING HORIZONTAL (SOLO IMÁGENES) 🔥 */
-    .ranking-panel { padding: 10px; text-align: center; }
-    .ranking-panel h2 { font-size: 0.85rem !important; margin-bottom: 10px !important; }
+    /* 🔥 RANKING HORIZONTAL (SOLO IMÁGENES) - MÁS FINITO 🔥 */
+    .ranking-panel { padding: 5px !important; text-align: center; margin-bottom: 10px !important; }
+    .ranking-panel h2 { font-size: 0.7rem !important; margin-bottom: 5px !important; }
     .ranking-list { 
         flex-direction: row; 
         overflow-x: auto; 
-        gap: 12px; 
+        gap: 8px; 
         justify-content: flex-start;
-        padding-bottom: 10px;
+        padding-bottom: 5px;
     }
     .ranking-list::-webkit-scrollbar { display: none; }
     .ranking-item { 
         flex-direction: column; 
-        min-width: 65px; 
-        padding: 5px; 
+        min-width: 45px !important; 
+        padding: 2px !important; 
         background: transparent;
         border-left: none; 
-        border-bottom: 3px solid #333; 
+        border-bottom: 2px solid #333 !important; 
         justify-content: center;
-        gap: 5px;
+        gap: 2px !important;
         transition: none;
     }
     .ranking-item.pos-1 { 
         border-left: none; 
-        border-bottom: 3px solid var(--oro); 
-        padding: 5px; 
+        border-bottom: 2px solid var(--oro) !important; 
+        padding: 2px !important; 
         background: linear-gradient(180deg, rgba(212,175,55,0.15) 0%, transparent 100%);
         transform: none; 
         box-shadow: none;
@@ -400,24 +406,25 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     
     .rank-name { display: none; } /* Ocultamos el nombre del caballo */
     
-    /* Imágenes circulares en el ranking */
+    /* Imágenes circulares en el ranking reducidas */
     .rank-img { 
         display: block; 
-        width: 40px; 
-        height: 40px; 
+        width: 28px !important; 
+        height: 28px !important; 
         border-radius: 50%; 
-        border: 2px solid var(--metalo); 
+        border: 1px solid var(--metalo) !important; 
         object-fit: cover; 
         margin: 0 auto;
     }
     .pos-1 .rank-img { 
-        border-color: var(--oro-brillo); 
-        width: 50px; 
-        height: 50px; 
+        border-color: var(--oro-brillo) !important; 
+        width: 34px !important; 
+        height: 34px !important; 
+        border-width: 1px !important;
         box-shadow: 0 0 10px rgba(249, 217, 118, 0.6); 
     }
-    .pos-number { font-size: 0.8rem; width: auto; text-align: center; margin-bottom: 2px; }
-    .pos-1 .pos-number { font-size: 1rem; color: var(--oro-brillo); text-shadow: none; }
+    .pos-number { font-size: 0.7rem !important; width: auto; text-align: center; margin-bottom: 0 !important; }
+    .pos-1 .pos-number { font-size: 0.85rem !important; color: var(--oro-brillo) !important; text-shadow: none !important; }
 
     /* 🔥 ELIMINAR LETRAS BLANCAS EN MÓVIL 🔥 */
     .hero-live-hero { color: var(--oro-brillo) !important; }
@@ -460,9 +467,10 @@ main { max-width: 1300px; margin: auto; padding: 15px 20px; min-height: 50vh; }
     #mobile-bet-btn.active { display: block; }
     
     .stadium { background-size: 15px 15px, 50px 50px; }
-    .lane { height: 40px; padding-left: 55px; } 
-    .lane-name { left: 5px; width: 45px; font-size: 0.55rem; word-wrap: break-word;}
-    .runner { left: 50px; width: 28px; height: 28px; } 
+    /* Pista modificada para empezar desde el inicio */
+    .lane { height: 40px; padding-left: 10px !important; } 
+    .lane-name { display: none !important; left: 5px; width: 45px; font-size: 0.55rem; word-wrap: break-word;}
+    .runner { left: 10px; width: 28px; height: 28px; } 
     .meta-line { width: 10px; }
 
     .carousel-btn { display: none; } 
@@ -953,7 +961,7 @@ function reiniciar(){
     const isMobile = window.innerWidth <= 600;
     dbCaballos.forEach(c => {
         const horse = document.getElementById("h" + c.id);
-        if(horse) horse.style.left = isMobile ? "60px" : "110px";
+        if(horse) horse.style.left = isMobile ? "10px" : "110px";
     });
     barra.innerHTML = 'SINCRO LIVE · INICIO EN <span id="clock">20</span>S';
     barra.style.background = "var(--verde)";
@@ -982,7 +990,7 @@ mqttClient.onMessageArrived = function (message) {
             if(payload.pos > 0 && payload.pos < 100 && !carrera) iniciarCarrera();
             progreso[index] = payload.pos; 
             const isMobile = window.innerWidth <= 600;
-            const inicioX = isMobile ? 60 : 110;
+            const inicioX = isMobile ? 10 : 110;
             const limiteX = stadiumContainer.clientWidth - (isMobile ? 35 : 55);
             const dist = limiteX - inicioX;
             let actualX = inicioX + (payload.pos / 100) * dist;
